@@ -9,7 +9,8 @@
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/activity_main.xml" value="0.2296875" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/activity_note_list.xml" value="0.13360507246376813" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/content_main.xml" value="0.2296875" />
-        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/content_note_list.xml" value="0.2296875" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/content_note_list.xml" value="0.4" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/note_list_item.xml" value="0.72" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/menu/menu_main.xml" value="0.2296875" />
       </map>
     </option>
