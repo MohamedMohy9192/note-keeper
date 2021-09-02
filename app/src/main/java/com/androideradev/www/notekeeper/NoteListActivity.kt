@@ -2,9 +2,8 @@ package com.androideradev.www.notekeeper
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 
 class NoteListActivity : AppCompatActivity() {
@@ -25,11 +24,14 @@ class NoteListActivity : AppCompatActivity() {
             startActivity(startEditNoteActivity)
         }
 
+        binding.contentNoteList.notesRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.contentNoteList.notesRecyclerView.adapter = NoteRecyclerAdapter(this, DataManager.notes)
     }
 
     override fun onResume() {
         super.onResume()
 
+        binding.contentNoteList.notesRecyclerView.adapter?.notifyDataSetChanged()
     }
 
 }
