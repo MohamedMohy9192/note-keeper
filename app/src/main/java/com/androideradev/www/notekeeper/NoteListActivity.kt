@@ -9,9 +9,7 @@ import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 
 class NoteListActivity : AppCompatActivity() {
 
-
     private lateinit var binding: ActivityNoteListBinding
-    private lateinit var arrayAdapter: ArrayAdapter<NoteInfo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,32 +21,15 @@ class NoteListActivity : AppCompatActivity() {
 
 
         binding.fab.setOnClickListener {
-            val startEditNoteActivity = Intent(this, MainActivity::class.java)
+            val startEditNoteActivity = Intent(this, NoteActivity::class.java)
             startActivity(startEditNoteActivity)
         }
 
-        val notesListView = binding.contentNoteList.notesListView
-        arrayAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            DataManager.notes
-        )
-
-        notesListView.adapter = arrayAdapter
-
-
-        notesListView.onItemClickListener =
-            AdapterView.OnItemClickListener { _, _, position, _ ->
-                val startEditNoteActivity = Intent(this, MainActivity::class.java)
-                startEditNoteActivity.putExtra(NOTE_POSITION, position)
-                startActivity(startEditNoteActivity)
-
-            }
     }
 
     override fun onResume() {
         super.onResume()
-        arrayAdapter.notifyDataSetChanged()
+
     }
 
 }

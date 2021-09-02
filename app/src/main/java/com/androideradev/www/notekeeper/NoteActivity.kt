@@ -1,15 +1,13 @@
 package com.androideradev.www.notekeeper
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.androideradev.www.notekeeper.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-
+class NoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var notePosition = POSITION_NOT_SET
