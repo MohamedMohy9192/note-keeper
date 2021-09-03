@@ -7,10 +7,19 @@
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.15925925925925927" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/drawable/ic_forward_24.xml" value="0.15925925925925927" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/activity_main.xml" value="0.2296875" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/activity_note.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/activity_note_list.xml" value="0.4" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/app_bar_note_list.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/content_main.xml" value="0.2296875" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/content_note.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/content_note_items.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/content_note_list.xml" value="0.29027962716378164" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/fragment_gallery.xml" value="0.10555555555555556" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/nav_header_main.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/nav_header_note_list.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/layout/note_list_item.xml" value="0.4" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/menu/activity_note_list_drawer.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/menu/menu_main.xml" value="0.2296875" />
       </map>
     </option>
