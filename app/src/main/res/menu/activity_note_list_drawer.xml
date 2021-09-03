@@ -5,21 +5,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_notes"
 
-            android:title="Import" />
+            android:checked="true"
+            android:title="Notes" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_courses"
 
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-
-            android:title="Tools" />
+            android:title="Courses" />
     </group>
 
     <item android:title="Communicate">

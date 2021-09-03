@@ -2,17 +2,30 @@ package com.androideradev.www.notekeeper
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 import com.google.android.material.navigation.NavigationView
 
 class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityNoteListBinding
+    private val tag = NoteActivity::class.java.simpleName
+
+    private val linearLayoutManager by lazy { LinearLayoutManager(this) }
+
+    //Don't create NoteRecyclerAdapter instance until i actually use the property the first time
+    //That will delay the creation on the NoteRecyclerAdapter instance
+    //Default use of property without lazy clause will cause runtime error because we cant access Context
+    //before on create method and  any property get instantiate when the activity
+    // class instance created and before the call to onCreate method
+    private val noteRecyclerAdapter by lazy { NoteRecyclerAdapter(this, DataManager.notes) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +41,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             startActivity(startEditNoteActivity)
         }
 
-        binding.appBarNoteList.contentNoteList.notesRecyclerView.layoutManager =
-            LinearLayoutManager(this)
-        binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
-            NoteRecyclerAdapter(this, DataManager.notes)
+        displayNotes()
+
+        binding.appBarNoteList.contentNoteList.notesRecyclerView.setHasFixedSize(true)
 
         val toggle = ActionBarDrawerToggle(
             this,
@@ -44,6 +56,21 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
 
         binding.navView.setNavigationItemSelectedListener(this)
+    }
+
+    private fun displayNotes() {
+        binding.appBarNoteList.contentNoteList.notesRecyclerView.layoutManager =
+            linearLayoutManager
+        binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
+            noteRecyclerAdapter
+    }
+
+    private fun displayCourses() {
+        binding.appBarNoteList.contentNoteList.notesRecyclerView.layoutManager =
+            GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
+
+        binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
+            CourseRecyclerAdapter(this, DataManager.courses.values.toList())
     }
 
     override fun onResume() {
@@ -63,17 +90,13 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
+            R.id.nav_notes -> {
                 // Handle the camera action
-            }
-            R.id.nav_gallery -> {
+                displayNotes()
 
             }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
+            R.id.nav_courses -> {
+                displayCourses()
             }
             R.id.nav_share -> {
 
