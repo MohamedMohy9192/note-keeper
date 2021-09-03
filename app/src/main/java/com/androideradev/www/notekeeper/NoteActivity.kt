@@ -5,18 +5,18 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import com.androideradev.www.notekeeper.databinding.ActivityMainBinding
+import com.androideradev.www.notekeeper.databinding.ActivityNoteBinding
 
 class NoteActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityNoteBinding
     private var notePosition = POSITION_NOT_SET
     private var showLeftArrow = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
@@ -29,7 +29,7 @@ class NoteActivity : AppCompatActivity() {
 
         coursesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        binding.contentMain.coursesSpinner.adapter = coursesAdapter
+        binding.contentNote.coursesSpinner.adapter = coursesAdapter
 
         notePosition = savedInstanceState?.getInt(NOTE_POSITION, POSITION_NOT_SET) ?:
             intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET)
@@ -56,11 +56,11 @@ class NoteActivity : AppCompatActivity() {
     private fun displayNote() {
         val note = DataManager.notes[notePosition]
 
-        binding.contentMain.noteTitleEditText.setText(note.title)
-        binding.contentMain.noteTextEditText.setText(note.text)
+        binding.contentNote.noteTitleEditText.setText(note.title)
+        binding.contentNote.noteTextEditText.setText(note.text)
 
         val courseIndex = DataManager.courses.values.indexOf(note.course)
-        binding.contentMain.coursesSpinner.setSelection(courseIndex)
+        binding.contentNote.coursesSpinner.setSelection(courseIndex)
 
     }
 
@@ -83,10 +83,10 @@ class NoteActivity : AppCompatActivity() {
     private fun saveNote() {
         val note = DataManager.notes[notePosition]
 
-        note.title = binding.contentMain.noteTitleEditText.text.toString()
-        note.text = binding.contentMain.noteTextEditText.text.toString()
+        note.title = binding.contentNote.noteTitleEditText.text.toString()
+        note.text = binding.contentNote.noteTextEditText.text.toString()
 
-        note.course = binding.contentMain.coursesSpinner.selectedItem as CourseInfo
+        note.course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
     }
 
 
