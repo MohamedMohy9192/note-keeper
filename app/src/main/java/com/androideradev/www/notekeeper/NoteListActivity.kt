@@ -67,7 +67,12 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun displayCourses() {
         binding.appBarNoteList.contentNoteList.notesRecyclerView.layoutManager =
-            GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
+            GridLayoutManager(
+                this,
+                resources.getInteger(R.integer.courses_span_count),
+                RecyclerView.VERTICAL,
+                false
+            )
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
             CourseRecyclerAdapter(this, DataManager.courses.values.toList())
