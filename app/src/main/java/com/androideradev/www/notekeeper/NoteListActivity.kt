@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 
 class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -108,6 +109,17 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             R.id.nav_send -> {
 
+            }
+            R.id.nav_how_many -> {
+                val message = getString(
+                    R.string.how_many_nav_value,
+                    DataManager.notes.size, DataManager.courses.size
+                )
+                Snackbar.make(
+                    binding.appBarNoteList.contentNoteList.notesRecyclerView,
+                    message,
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 

@@ -6,12 +6,10 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_notes"
-
             android:checked="true"
             android:title="Notes" />
         <item
             android:id="@+id/nav_courses"
-
             android:title="Courses" />
     </group>
 
@@ -19,12 +17,14 @@
         <menu>
             <item
                 android:id="@+id/nav_share"
-
                 android:title="Share" />
             <item
                 android:id="@+id/nav_send"
-
                 android:title="Send" />
+            <item
+                android:id="@+id/nav_how_many"
+                android:icon="@drawable/ic_sharp_help_24"
+                android:title="@string/how_many_nav_title" />
         </menu>
     </item>
 
