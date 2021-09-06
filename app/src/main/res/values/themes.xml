@@ -12,6 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <!--Apply the style on any EditText in the app
+        that style wont effect any EditText has its own version
+        of the attributes specified in that TextAndHint-->
+        <item name="editTextStyle">@style/TextAndHint</item>
     </style>
 
     <style name="Theme.NoteKeeper.NoActionBar">
@@ -22,4 +27,33 @@
     <style name="Theme.NoteKeeper.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.NoteKeeper.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--When inheriting from style that defined in the android platform APIS we have to use the parent attribute
+    of the style tag-->
+    <style name="MediumText" parent="TextAppearance.AppCompat.Medium" />
+
+    <!--When inheriting from style defined in our project we can use the . notation on the style name
+    which we include the name of the parent style we want to inherit from before the . notation-->
+    <style name="MediumText.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!--Inherit the default style of CardView and override the default attributes values from the parent style with our specification attributes values-->
+    <!--We have to inherit the CardView default style because it provides many other attributes values that are incorporated into styling the CardView we only override the attributes we need only to customize-->
+    <style name="CardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+
+    <!--Any -->
+
+    <!--Inherit from the default EditText style to use the default
+    attributes values specified in that parent style then override
+    the attributes we need to customize-->
+    <style name="TextAndHint" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+        <item name="android:textColorHint">@android:color/holo_red_light</item>
+    </style>
+
 </resources>
