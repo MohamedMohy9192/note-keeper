@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,8 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     }
 
+    private lateinit var viewModel: NoteListActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -52,15 +55,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             startActivity(startEditNoteActivity)
         }
 
-        navUserSelection = savedInstanceState?.getInt(NAV_USER_SELECTION_ID) ?: R.id.nav_notes
+        viewModel = ViewModelProvider(this)[NoteListActivityViewModel::class.java]
 
-        when (navUserSelection) {
-            R.id.nav_notes -> displayNotes()
-            R.id.nav_courses -> displayCourses()
-            R.id.nav_recently_viewed -> displayRecentlyViewedNotes()
-
-        }
-
+        handleDisplaySelection(viewModel.navUserSelection)
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.setHasFixedSize(true)
 
@@ -121,20 +118,15 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_notes -> {
-                // Handle the camera action
-                displayNotes()
-                navUserSelection = R.id.nav_notes
-            }
-            R.id.nav_courses -> {
-                displayCourses()
-                navUserSelection = R.id.nav_courses
-            }
+            R.id.nav_notes,
+            R.id.nav_courses,
             R.id.nav_recently_viewed -> {
-                displayRecentlyViewedNotes()
-                navUserSelection = R.id.nav_recently_viewed
+                // Handle the camera action
+                handleDisplaySelection(itemId = item.itemId)
+                viewModel.navUserSelection = item.itemId
 
             }
+
             R.id.nav_share -> {
 
             }
@@ -158,12 +150,24 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+    fun handleDisplaySelection(itemId: Int) {
+        when (itemId) {
 
-        outState.putInt(NAV_USER_SELECTION_ID, navUserSelection!!)
+            R.id.nav_notes -> {
+                // Handle the camera action
+                displayNotes()
+
+            }
+            R.id.nav_courses -> {
+                displayCourses()
+
+            }
+            R.id.nav_recently_viewed -> {
+                displayRecentlyViewedNotes()
 
 
+            }
+        }
     }
 
     override fun onNoteItemClick(note: NoteInfo) {
