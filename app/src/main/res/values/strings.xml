@@ -17,5 +17,10 @@
     <string name="how_many_nav_title">How many</string>
 
     <string name="how_many_nav_value">Notes: %1$d | Courses: %2$d</string>
+    <string name="notes_title_nav_menu">Notes</string>
+    <string name="courses_title_nav_menu">Courses</string>
+    <string name="recently_viewed_notes_title_nav_menu">Recently Viewed Notes</string>
+    <string name="share_title_nav_menu">Share</string>
+    <string name="send_title_nav_menu">Send</string>
 
 </resources>

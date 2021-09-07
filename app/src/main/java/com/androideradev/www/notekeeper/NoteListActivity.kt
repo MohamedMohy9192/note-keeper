@@ -14,12 +14,13 @@ import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 
-class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    NoteRecyclerAdapter.OnNoteItemClickListener {
 
     private lateinit var binding: ActivityNoteListBinding
     private val tag = NoteActivity::class.java.simpleName
 
-    private  var navUserSelection: Int? = null
+    private var navUserSelection: Int? = null
 
     private val linearLayoutManager by lazy { LinearLayoutManager(this) }
 
@@ -28,7 +29,14 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     //Default use of property without lazy clause will cause runtime error because we cant access Context
     //before on create method and  any property get instantiate when the activity
     // class instance created and before the call to onCreate method
-    private val noteRecyclerAdapter by lazy { NoteRecyclerAdapter(this, DataManager.notes) }
+    private val noteRecyclerAdapter by lazy { NoteRecyclerAdapter(this, DataManager.notes, this) }
+
+    private val maxRecentlyViewedNotes = 5
+    private val recentlyViewedNotes = ArrayList<NoteInfo>(maxRecentlyViewedNotes)
+    private val recentlyViewedNoteRecyclerAdapter by lazy {
+        NoteRecyclerAdapter(this, recentlyViewedNotes, this)
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +54,11 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         navUserSelection = savedInstanceState?.getInt(NAV_USER_SELECTION_ID) ?: R.id.nav_notes
 
-        when(navUserSelection){
+        when (navUserSelection) {
             R.id.nav_notes -> displayNotes()
             R.id.nav_courses -> displayCourses()
+            R.id.nav_recently_viewed -> displayRecentlyViewedNotes()
+
         }
 
 
@@ -87,6 +97,13 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             CourseRecyclerAdapter(this, DataManager.courses.values.toList())
     }
 
+    private fun displayRecentlyViewedNotes() {
+        binding.appBarNoteList.contentNoteList.notesRecyclerView.layoutManager =
+            linearLayoutManager
+        binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
+            recentlyViewedNoteRecyclerAdapter
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -112,6 +129,11 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.nav_courses -> {
                 displayCourses()
                 navUserSelection = R.id.nav_courses
+            }
+            R.id.nav_recently_viewed -> {
+                displayRecentlyViewedNotes()
+                navUserSelection = R.id.nav_recently_viewed
+
             }
             R.id.nav_share -> {
 
@@ -142,6 +164,29 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         outState.putInt(NAV_USER_SELECTION_ID, navUserSelection!!)
 
 
+    }
+
+    override fun onNoteItemClick(note: NoteInfo) {
+        Log.d(tag, "Note Item Clicked")
+        addToRecentlyViewedNotes(note)
+    }
+
+    fun addToRecentlyViewedNotes(note: NoteInfo) {
+        // Check if selection is already in the list
+        val existingIndex = recentlyViewedNotes.indexOf(note)
+        if (existingIndex == -1) {
+            // it isn't in the list...
+            // Add new one to beginning of list and remove any beyond max we want to keep
+            recentlyViewedNotes.add(0, note)
+            for (index in recentlyViewedNotes.lastIndex downTo maxRecentlyViewedNotes)
+                recentlyViewedNotes.removeAt(index)
+        } else {
+            // it is in the list...
+            // Shift the ones above down the list and make it first member of the list
+            for (index in (existingIndex - 1) downTo 0)
+                recentlyViewedNotes[index + 1] = recentlyViewedNotes[index]
+            recentlyViewedNotes[0] = note
+        }
     }
 
 }
