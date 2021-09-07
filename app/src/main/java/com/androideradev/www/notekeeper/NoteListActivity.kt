@@ -21,8 +21,6 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var binding: ActivityNoteListBinding
     private val tag = NoteActivity::class.java.simpleName
 
-    private var navUserSelection: Int? = null
-
     private val linearLayoutManager by lazy { LinearLayoutManager(this) }
 
     //Don't create NoteRecyclerAdapter instance until i actually use the property the first time
@@ -32,10 +30,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     // class instance created and before the call to onCreate method
     private val noteRecyclerAdapter by lazy { NoteRecyclerAdapter(this, DataManager.notes, this) }
 
-    private val maxRecentlyViewedNotes = 5
-    private val recentlyViewedNotes = ArrayList<NoteInfo>(maxRecentlyViewedNotes)
+
     private val recentlyViewedNoteRecyclerAdapter by lazy {
-        NoteRecyclerAdapter(this, recentlyViewedNotes, this)
+        NoteRecyclerAdapter(this, viewModel.recentlyViewedNotes, this)
 
     }
 
@@ -172,25 +169,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onNoteItemClick(note: NoteInfo) {
         Log.d(tag, "Note Item Clicked")
-        addToRecentlyViewedNotes(note)
+        viewModel.addToRecentlyViewedNotes(note)
     }
 
-    fun addToRecentlyViewedNotes(note: NoteInfo) {
-        // Check if selection is already in the list
-        val existingIndex = recentlyViewedNotes.indexOf(note)
-        if (existingIndex == -1) {
-            // it isn't in the list...
-            // Add new one to beginning of list and remove any beyond max we want to keep
-            recentlyViewedNotes.add(0, note)
-            for (index in recentlyViewedNotes.lastIndex downTo maxRecentlyViewedNotes)
-                recentlyViewedNotes.removeAt(index)
-        } else {
-            // it is in the list...
-            // Shift the ones above down the list and make it first member of the list
-            for (index in (existingIndex - 1) downTo 0)
-                recentlyViewedNotes[index + 1] = recentlyViewedNotes[index]
-            recentlyViewedNotes[0] = note
-        }
-    }
+
 
 }
