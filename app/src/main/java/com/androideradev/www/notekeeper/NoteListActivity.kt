@@ -19,6 +19,8 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var binding: ActivityNoteListBinding
     private val tag = NoteActivity::class.java.simpleName
 
+    private  var navUserSelection: Int? = null
+
     private val linearLayoutManager by lazy { LinearLayoutManager(this) }
 
     //Don't create NoteRecyclerAdapter instance until i actually use the property the first time
@@ -42,7 +44,13 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             startActivity(startEditNoteActivity)
         }
 
-        displayNotes()
+        navUserSelection = savedInstanceState?.getInt(NAV_USER_SELECTION_ID) ?: R.id.nav_notes
+
+        when(navUserSelection){
+            R.id.nav_notes -> displayNotes()
+            R.id.nav_courses -> displayCourses()
+        }
+
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.setHasFixedSize(true)
 
@@ -99,10 +107,11 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.nav_notes -> {
                 // Handle the camera action
                 displayNotes()
-
+                navUserSelection = R.id.nav_notes
             }
             R.id.nav_courses -> {
                 displayCourses()
+                navUserSelection = R.id.nav_courses
             }
             R.id.nav_share -> {
 
@@ -125,6 +134,14 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt(NAV_USER_SELECTION_ID, navUserSelection!!)
+
+
     }
 
 }
