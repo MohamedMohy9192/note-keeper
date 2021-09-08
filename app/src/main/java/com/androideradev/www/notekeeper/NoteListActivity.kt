@@ -54,6 +54,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         viewModel = ViewModelProvider(this)[NoteListActivityViewModel::class.java]
 
+        if (savedInstanceState != null) {
+            viewModel.navUserSelection = savedInstanceState.getInt(NAV_USER_SELECTION_ID)
+        }
         handleDisplaySelection(viewModel.navUserSelection)
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.setHasFixedSize(true)
@@ -69,6 +72,11 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
 
         binding.navView.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(NAV_USER_SELECTION_ID, viewModel.navUserSelection)
     }
 
     private fun displayNotes() {
@@ -171,7 +179,6 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         Log.d(tag, "Note Item Clicked")
         viewModel.addToRecentlyViewedNotes(note)
     }
-
 
 
 }
