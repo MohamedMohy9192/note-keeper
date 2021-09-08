@@ -9,9 +9,12 @@ import com.androideradev.www.notekeeper.databinding.ActivityNoteBinding
 
 class NoteActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityNoteBinding
+
     private var notePosition = POSITION_NOT_SET
     private var showLeftArrow = false
+
+    private lateinit var binding: ActivityNoteBinding
+    private lateinit var noteGetTogetherHelper: NoteGetTogetherHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +34,11 @@ class NoteActivity : AppCompatActivity() {
 
         binding.contentNote.coursesSpinner.adapter = coursesAdapter
 
-        notePosition = savedInstanceState?.getInt(NOTE_POSITION, POSITION_NOT_SET) ?:
-            intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET)
+        notePosition =
+            savedInstanceState?.getInt(NOTE_POSITION, POSITION_NOT_SET) ?: intent.getIntExtra(
+                NOTE_POSITION,
+                POSITION_NOT_SET
+            )
 
 
         if (notePosition != POSITION_NOT_SET) {
@@ -42,6 +48,8 @@ class NoteActivity : AppCompatActivity() {
             createNewNote()
         }
 
+
+        noteGetTogetherHelper = NoteGetTogetherHelper(this, lifecycle)
 
     }
 
