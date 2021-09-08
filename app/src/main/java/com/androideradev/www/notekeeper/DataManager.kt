@@ -10,6 +10,28 @@ object DataManager {
         initializeNotes()
     }
 
+    fun loadNotes(vararg noteIds: Int): List<NoteInfo> {
+        val noteList: List<NoteInfo>
+
+        if(noteIds.isEmpty())
+            noteList = notes
+        else {
+            noteList = ArrayList(noteIds.size)
+            for(noteId in noteIds)
+                noteList.add(notes[noteId])
+        }
+        return noteList
+    }
+
+    private fun idOfNote(note: NoteInfo) = notes.indexOf(note)
+
+    fun noteIdsAsIntArray(notes: List<NoteInfo>): IntArray {
+        val noteIds = IntArray(notes.size)
+        for(index in 0..notes.lastIndex)
+            noteIds[index] = idOfNote(notes[index])
+        return noteIds
+    }
+
     fun addNote(course: CourseInfo, noteTitle: String, noteText: String): Int {
         notes.add(NoteInfo(course, noteTitle, noteText))
 

@@ -51,12 +51,20 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val startEditNoteActivity = Intent(this, NoteActivity::class.java)
             startActivity(startEditNoteActivity)
         }
-
+        // When the activity destroy and re-created due to configuration change
+        // the activity receive the same instance of the viewModel that was created when the activity initially created
         viewModel = ViewModelProvider(this)[NoteListActivityViewModel::class.java]
 
-        if (savedInstanceState != null) {
-            viewModel.navUserSelection = savedInstanceState.getInt(NAV_USER_SELECTION_ID)
+        // We depend viewModel to restore nav display selection and recent viewed notes due to configuration change
+        // We only want to use savedInstanceState when the viewModel destroyed which happened when
+        // system destroy activity to reclaim resources
+        if (viewModel.newlyCreated && savedInstanceState != null) {
+            viewModel.restoreState(savedInstanceState)
+
         }
+
+        viewModel.newlyCreated = false
+        // Display the correct list based on the nav user selection stored in the viewModel
         handleDisplaySelection(viewModel.navUserSelection)
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.setHasFixedSize(true)
@@ -74,9 +82,16 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         binding.navView.setNavigationItemSelectedListener(this)
     }
 
+
+    // We use onSaveInstanceState to store nav user display selection
+    // and recentlyViewedNotes list in the scenarios where ViewModel is not enough
+    // that's when  system-initiated process death to reclaim resource
+    // in this case viewModel is also destroyed so we need to use
+    // onSaveInstanceState which Survives system-initiated process death
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(NAV_USER_SELECTION_ID, viewModel.navUserSelection)
+        viewModel.saveState(outState)
+
     }
 
     private fun displayNotes() {
@@ -126,8 +141,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.nav_notes,
             R.id.nav_courses,
             R.id.nav_recently_viewed -> {
-                // Handle the camera action
+
                 handleDisplaySelection(itemId = item.itemId)
+                //Save the user nav display selection into the viewModel navUserSelection property
                 viewModel.navUserSelection = item.itemId
 
             }
