@@ -124,6 +124,10 @@ class NoteActivity : AppCompatActivity() {
                 moveBack()
                 return true
             }
+            R.id.action_get_together -> {
+                noteGetTogetherHelper.sendMessage(DataManager.loadNote(notePosition))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

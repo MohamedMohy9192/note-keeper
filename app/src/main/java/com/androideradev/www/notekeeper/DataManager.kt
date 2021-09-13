@@ -23,6 +23,8 @@ object DataManager {
         return noteList
     }
 
+    fun loadNote(noteId: Int) = notes[noteId]
+
     private fun idOfNote(note: NoteInfo) = notes.indexOf(note)
 
     fun noteIdsAsIntArray(notes: List<NoteInfo>): IntArray {

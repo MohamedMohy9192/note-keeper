@@ -8,13 +8,17 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_back"
+        android:icon="@drawable/ic_baseline_arrow_back_24"
+        android:title="Previous"
+        app:showAsAction="ifRoom|withText" />
+    <item
         android:id="@+id/action_next"
         android:icon="@drawable/ic_arrow_forward_24"
         android:title="Next"
         app:showAsAction="ifRoom|withText" />
     <item
-        android:id="@+id/action_back"
-        android:icon="@drawable/ic_baseline_arrow_back_24"
-        android:title="Previous"
-        app:showAsAction="ifRoom|withText" />
+        android:id="@+id/action_get_together"
+        android:title="SEND"
+        app:showAsAction="ifRoom" />
 </menu>
