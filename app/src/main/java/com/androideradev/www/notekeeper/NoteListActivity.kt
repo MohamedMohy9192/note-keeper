@@ -32,7 +32,7 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
     private val recentlyViewedNoteRecyclerAdapter by lazy {
-        NoteRecyclerAdapter(this, viewModel.recentlyViewedNotes, this)
+        RecentViewedNoteRecyclerAdapter(this, viewModel.recentlyViewedNotes)
 
     }
 
