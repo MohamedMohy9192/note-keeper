@@ -39,7 +39,7 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT
     ) {
         override fun onMove(
             recyclerView: RecyclerView,
@@ -50,12 +50,7 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             val startPosition = viewHolder.adapterPosition
             // Position of the list item we want to swap with the dragged item
             val toPosition = targetViewHolder.adapterPosition
-            /**
-             * Todo this feature effect the recent viewed notes recycler view as well
-             * but we only swap the items positions in the notes list
-             * need to figure a way to swap the recent viewed notes list when the user display
-             * the recent viewed notes nav selection
-             * */
+
             // First swap the items in the list
             Collections.swap(DataManager.notes, startPosition, toPosition)
             // Notify the adapter of the items change positions
@@ -64,7 +59,46 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            TODO("Not yet implemented")
+            // Position of Note swiped item
+            val position = viewHolder.adapterPosition
+            // Note object to delete
+            val deletedNote = DataManager.notes[position]
+
+            // Delete Item
+            DataManager.notes.removeAt(position)
+            Log.i(tag, "After remove the First item :${DataManager.notes}")
+            noteRecyclerAdapter.notifyItemRemoved(position)
+            noteRecyclerAdapter.notifyItemRangeChanged(position, DataManager.notes.size)
+
+            // Position of deleted note inside the recent viewed notes if exist if not return -1
+            val recentDeletedNotePosition = viewModel.recentlyViewedNotes.indexOf(deletedNote)
+            if (recentDeletedNotePosition != -1){
+                // Delete the Item from recent Viewed also if exist
+                viewModel.recentlyViewedNotes.removeAt(recentDeletedNotePosition)
+                // Notify recentViewAdapter of the deleted Item Position
+                recentlyViewedNoteRecyclerAdapter.notifyItemRemoved(recentDeletedNotePosition)
+            }
+
+            //Show snack bar to undo the delete
+            Snackbar.make(
+                binding.appBarNoteList.contentNoteList.notesRecyclerView,
+                "Deleted",
+                Snackbar.LENGTH_LONG
+            ).setAction("UNDO") {
+                // Back the deleted note to the list if user undo the delete
+                DataManager.notes.add(position, deletedNote)
+                Log.i(tag, "After Add Back the First item :${DataManager.notes}")
+                noteRecyclerAdapter.notifyItemInserted(position)
+                noteRecyclerAdapter.notifyItemRangeChanged(position, DataManager.notes.size)
+
+
+                if (recentDeletedNotePosition != -1) {
+                    //Back the deleted note to recent notes if exist previous
+                    viewModel.recentlyViewedNotes.add(recentDeletedNotePosition, deletedNote)
+                   // Notify recentViewAdapter of the inserted item Position
+                    recentlyViewedNoteRecyclerAdapter.notifyItemInserted(recentDeletedNotePosition)
+                }
+            }.show()
         }
     })
 
@@ -101,8 +135,6 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.setHasFixedSize(true)
 
-        // Attach the the touch helper to recycler view
-        itemTouchHelper.attachToRecyclerView(binding.appBarNoteList.contentNoteList.notesRecyclerView)
         val toggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
@@ -135,6 +167,8 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             linearLayoutManager
         binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
             noteRecyclerAdapter
+        // Attach the the touch helper to recycler view only if the user select nav notes display
+        itemTouchHelper.attachToRecyclerView(binding.appBarNoteList.contentNoteList.notesRecyclerView)
     }
 
     private fun displayCourses() {
@@ -148,6 +182,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
             CourseRecyclerAdapter(this, DataManager.courses.values.toList())
+        //Not apply drag or swap to delete to courses nav display selection since we only operate on
+        //notes list in the DataManager
+        itemTouchHelper.attachToRecyclerView(null)
     }
 
     private fun displayRecentlyViewedNotes() {
@@ -155,6 +192,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             linearLayoutManager
         binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
             recentlyViewedNoteRecyclerAdapter
+        //Not apply drag or swap to delete to recent viewed nav display selection since we only operate on
+        //notes list in the DataManager
+        itemTouchHelper.attachToRecyclerView(null)
     }
 
     override fun onResume() {
