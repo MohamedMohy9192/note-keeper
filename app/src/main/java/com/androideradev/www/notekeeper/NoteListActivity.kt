@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     NoteRecyclerAdapter.OnNoteItemClickListener {
@@ -35,6 +37,36 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         RecentViewedNoteRecyclerAdapter(this, viewModel.recentlyViewedNotes)
 
     }
+
+    private val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            targetViewHolder: RecyclerView.ViewHolder
+        ): Boolean {
+            // Position of the list item want to drag
+            val startPosition = viewHolder.adapterPosition
+            // Position of the list item we want to swap with the dragged item
+            val toPosition = targetViewHolder.adapterPosition
+            /**
+             * Todo this feature effect the recent viewed notes recycler view as well
+             * but we only swap the items positions in the notes list
+             * need to figure a way to swap the recent viewed notes list when the user display
+             * the recent viewed notes nav selection
+             * */
+            // First swap the items in the list
+            Collections.swap(DataManager.notes, startPosition, toPosition)
+            // Notify the adapter of the items change positions
+            recyclerView.adapter?.notifyItemMoved(startPosition, toPosition)
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            TODO("Not yet implemented")
+        }
+    })
 
     private lateinit var viewModel: NoteListActivityViewModel
 
@@ -69,6 +101,8 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         binding.appBarNoteList.contentNoteList.notesRecyclerView.setHasFixedSize(true)
 
+        // Attach the the touch helper to recycler view
+        itemTouchHelper.attachToRecyclerView(binding.appBarNoteList.contentNoteList.notesRecyclerView)
         val toggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
@@ -80,6 +114,8 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
 
         binding.navView.setNavigationItemSelectedListener(this)
+
+
     }
 
 
@@ -171,7 +207,7 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    fun handleDisplaySelection(itemId: Int) {
+    private fun handleDisplaySelection(itemId: Int) {
         when (itemId) {
 
             R.id.nav_notes -> {
@@ -197,9 +233,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onNoteItemDelete(note: NoteInfo) {
-     val isRemoved =   viewModel.recentlyViewedNotes.remove(note)
+        val isRemoved = viewModel.recentlyViewedNotes.remove(note)
 
-        if (isRemoved){
+        if (isRemoved) {
             Log.i(tag, "Recently Note Removed: $isRemoved")
         }
 
