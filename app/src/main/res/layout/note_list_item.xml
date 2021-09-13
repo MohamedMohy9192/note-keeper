@@ -32,10 +32,20 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:textAppearance="@style/MediumText.Bold"
-                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/delete_note_image_view"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="TextView" />
+
+            <ImageView
+                android:id="@+id/delete_note_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/course_name_text_view"
+                app:srcCompat="@drawable/ic_baseline_delete_24" />
 
             <TextView
                 android:id="@+id/note_title_text_view"
@@ -45,7 +55,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:textAppearance="@style/MediumText"
-                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/delete_note_image_view"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/course_name_text_view"
                 tools:text="TextView" />

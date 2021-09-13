@@ -196,5 +196,14 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         viewModel.addToRecentlyViewedNotes(note)
     }
 
+    override fun onNoteItemDelete(note: NoteInfo) {
+     val isRemoved =   viewModel.recentlyViewedNotes.remove(note)
+
+        if (isRemoved){
+            Log.i(tag, "Recently Note Removed: $isRemoved")
+        }
+
+    }
+
 
 }
