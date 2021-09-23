@@ -3,6 +3,7 @@ package com.androideradev.www.notekeeper
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
+import com.androideradev.www.notekeeper.settings.SettingsActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
@@ -72,7 +74,7 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             // Position of deleted note inside the recent viewed notes if exist if not return -1
             val recentDeletedNotePosition = viewModel.recentlyViewedNotes.indexOf(deletedNote)
-            if (recentDeletedNotePosition != -1){
+            if (recentDeletedNotePosition != -1) {
                 // Delete the Item from recent Viewed also if exist
                 viewModel.recentlyViewedNotes.removeAt(recentDeletedNotePosition)
                 // Notify recentViewAdapter of the deleted Item Position
@@ -95,7 +97,7 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 if (recentDeletedNotePosition != -1) {
                     //Back the deleted note to recent notes if exist previous
                     viewModel.recentlyViewedNotes.add(recentDeletedNotePosition, deletedNote)
-                   // Notify recentViewAdapter of the inserted item Position
+                    // Notify recentViewAdapter of the inserted item Position
                     recentlyViewedNoteRecyclerAdapter.notifyItemInserted(recentDeletedNotePosition)
                 }
             }.show()
@@ -111,7 +113,6 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarNoteList.toolbar)
-
 
         binding.appBarNoteList.fab.setOnClickListener {
             val startEditNoteActivity = Intent(this, NoteActivity::class.java)
@@ -265,6 +266,24 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.note_list_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.action_settings_note_list -> {
+                val settingsActivity = Intent(this, SettingsActivity::class.java)
+                startActivity(settingsActivity)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+
     }
 
     override fun onNoteItemClick(note: NoteInfo) {
