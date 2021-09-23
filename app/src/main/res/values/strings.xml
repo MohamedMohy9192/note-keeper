@@ -22,5 +22,7 @@
     <string name="recently_viewed_notes_title_nav_menu">Recently Viewed Notes</string>
     <string name="share_title_nav_menu">Share</string>
     <string name="send_title_nav_menu">Send</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
