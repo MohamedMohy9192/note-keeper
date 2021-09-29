@@ -27,11 +27,6 @@ class InsertNoteTest {
         noteDao = db.noteDao()
     }
 
-    @After
-    @Throws(IOException::class)
-    fun closeDb() {
-        db.close()
-    }
 
 
     @Test
@@ -45,4 +40,11 @@ class InsertNoteTest {
         noteDao.addNote(note)
 
     }
+
+    @After
+    @Throws(IOException::class)
+    fun closeDb() {
+       db.close()
+    }
+
 }

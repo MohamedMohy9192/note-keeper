@@ -3,6 +3,7 @@ package com.androideradev.www.notekeeper
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
 data class CourseInfo(
@@ -21,5 +22,5 @@ data class NoteInfo(
     @Embedded var course: CourseInfo? = null,
     var title: String? = null,
     var text: String? = null,
-    val id: String = UUID.randomUUID().toString(),
+    @PrimaryKey val id: String = UUID.randomUUID().toString(),
 )
