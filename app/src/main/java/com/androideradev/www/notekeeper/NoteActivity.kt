@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.androideradev.www.notekeeper.databinding.ActivityNoteBinding
 
 class NoteActivity : AppCompatActivity() {
@@ -15,6 +16,7 @@ class NoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNoteBinding
     private lateinit var noteGetTogetherHelper: NoteGetTogetherHelper
+    private lateinit var viewModel: NoteActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,8 @@ class NoteActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+
+        viewModel = ViewModelProvider(this)[NoteActivityViewModel::class.java]
 
         val coursesAdapter = ArrayAdapter(
             this,
@@ -95,6 +99,8 @@ class NoteActivity : AppCompatActivity() {
         note.text = binding.contentNote.noteTextEditText.text.toString()
 
         note.course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
+
+        viewModel.insertNote(note)
     }
 
 

@@ -9,7 +9,7 @@ import com.androideradev.www.notekeeper.NoteInfo
 @Database(entities = [NoteInfo::class], version = 1)
 abstract class NoteDatabase : RoomDatabase() {
 
-    abstract fun noteDao()
+    abstract fun noteDao() : NoteDao
 
     companion object {
         private var noteDatabaseInstance: NoteDatabase? = null
