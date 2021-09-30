@@ -43,7 +43,7 @@ class NoteRecyclerAdapter(
 
     fun setNotesFromDatabase(notesFromDatabase: List<NoteInfo>) {
         notes.addAll(notesFromDatabase)
-        notifyItemRangeInserted(notes.lastIndex, notes.lastIndex + notesFromDatabase.size)
+        notifyItemRangeInserted(notes.lastIndex,  notesFromDatabase.size)
     }
 
     // A nested class marked as inner can access the members of its outer class.
