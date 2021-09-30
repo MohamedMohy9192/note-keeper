@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.log
 
 class NoteRecyclerAdapter(
-    private val context: Context, private val notes: List<NoteInfo>,
+    private val context: Context, private val notes: ArrayList<NoteInfo>,
     private val itemClickListener: OnNoteItemClickListener
 ) :
     RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
@@ -39,6 +39,11 @@ class NoteRecyclerAdapter(
 
     override fun getItemCount(): Int {
         return notes.size
+    }
+
+    fun setNotesFromDatabase(notesFromDatabase: List<NoteInfo>) {
+        notes.addAll(notesFromDatabase)
+        notifyItemRangeInserted(notes.lastIndex, notes.lastIndex + notesFromDatabase.size)
     }
 
     // A nested class marked as inner can access the members of its outer class.
