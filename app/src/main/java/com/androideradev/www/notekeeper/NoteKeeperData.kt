@@ -16,7 +16,7 @@ data class CourseInfo(
     }
 }
 
-@Entity
+@Entity(tableName = "notes")
 data class NoteInfo(
 
     @Embedded var course: CourseInfo? = null,
