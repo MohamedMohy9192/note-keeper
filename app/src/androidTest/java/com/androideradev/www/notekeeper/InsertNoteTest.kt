@@ -37,7 +37,7 @@ class InsertNoteTest {
         val noteText = "This is the body of our test note"
         val course = DataManager.courses["android_async"]
         val note = NoteInfo(course, noteTitle, noteText)
-        noteDao.addNote(note)
+        noteDao.insertNote(note)
 
     }
 

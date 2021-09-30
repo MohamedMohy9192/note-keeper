@@ -25,7 +25,7 @@ class NoteActivityViewModel(application: Application) : AndroidViewModel(applica
     fun insertNote(note: NoteInfo) {
 
         coroutineScope.launch {
-            noteDao.addNote(
+            noteDao.insertNote(
                 note
             )
         }
