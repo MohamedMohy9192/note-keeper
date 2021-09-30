@@ -1,15 +1,28 @@
 package com.androideradev.www.notekeeper
 
+import android.app.Application
 import android.os.Bundle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.androideradev.www.notekeeper.data.NoteDao
+import com.androideradev.www.notekeeper.data.NoteDatabase
+import kotlinx.coroutines.launch
 
-class NoteListActivityViewModel : ViewModel() {
+class NoteListActivityViewModel(application: Application) : AndroidViewModel(application) {
     var navUserSelection: Int = R.id.nav_notes
 
     var newlyCreated = true
 
     private val maxRecentlyViewedNotes = 5
     val recentlyViewedNotes = ArrayList<NoteInfo>(maxRecentlyViewedNotes)
+
+    var notesFromDatabase: LiveData<List<NoteInfo>> = MutableLiveData<List<NoteInfo>>()
+    private var noteDao: NoteDao
+
+    init {
+        val noteDatabase = NoteDatabase.getDatabase(application)
+        this.noteDao = noteDatabase!!.noteDao()
+        notesFromDatabase = getAllNotes()
+    }
 
     fun addToRecentlyViewedNotes(note: NoteInfo) {
         // Check if selection is already in the list
@@ -41,6 +54,16 @@ class NoteListActivityViewModel : ViewModel() {
         val notesIds = savedInstanceState.getIntArray(RECENT_VIEWED_NOTES_IDS)
         val notes = DataManager.loadNotes(*notesIds!!)
         recentlyViewedNotes.addAll(notes)
+    }
+
+    private fun getAllNotes(): LiveData<List<NoteInfo>> {
+        var notesFromDatabase = MutableLiveData<List<NoteInfo>>()
+        viewModelScope.launch {
+            notesFromDatabase = noteDao.getAllNotes() as MutableLiveData<List<NoteInfo>>
+
+        }
+        return notesFromDatabase
+
     }
 
 }
