@@ -17,6 +17,7 @@ import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 import com.androideradev.www.notekeeper.settings.SettingsActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import  androidx.lifecycle.Observer
 import java.util.*
 
 class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -168,6 +169,9 @@ class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             linearLayoutManager
         binding.appBarNoteList.contentNoteList.notesRecyclerView.adapter =
             noteRecyclerAdapter
+        viewModel.notesFromDatabase.observe(this, { notesFromDatabase ->
+            noteRecyclerAdapter.setNotesFromDatabase(notesFromDatabase)
+        })
         // Attach the the touch helper to recycler view only if the user select nav notes display
         itemTouchHelper.attachToRecyclerView(binding.appBarNoteList.contentNoteList.notesRecyclerView)
     }
