@@ -2,6 +2,7 @@ package com.androideradev.www.notekeeper
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.*
 import com.androideradev.www.notekeeper.data.NoteDao
 import com.androideradev.www.notekeeper.data.NoteDatabase
@@ -19,9 +20,11 @@ class NoteListActivityViewModel(application: Application) : AndroidViewModel(app
     private var noteDao: NoteDao
 
     init {
+        Log.i("NoteListViewModel", "Init Block Invoked")
         val noteDatabase = NoteDatabase.getDatabase(application)
         this.noteDao = noteDatabase!!.noteDao()
         notesFromDatabase = getAllNotes()
+
     }
 
     fun addToRecentlyViewedNotes(note: NoteInfo) {
@@ -57,9 +60,9 @@ class NoteListActivityViewModel(application: Application) : AndroidViewModel(app
     }
 
     private fun getAllNotes(): LiveData<List<NoteInfo>> {
-        var notesFromDatabase = MutableLiveData<List<NoteInfo>>()
+        var notesFromDatabase: LiveData<List<NoteInfo>> =  MutableLiveData<List<NoteInfo>>()
         viewModelScope.launch {
-            notesFromDatabase = noteDao.getAllNotes() as MutableLiveData<List<NoteInfo>>
+            notesFromDatabase = noteDao.getAllNotes()
 
         }
         return notesFromDatabase
