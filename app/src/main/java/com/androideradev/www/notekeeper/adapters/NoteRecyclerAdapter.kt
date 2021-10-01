@@ -1,4 +1,4 @@
-package com.androideradev.www.notekeeper
+package com.androideradev.www.notekeeper.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.math.log
+import com.androideradev.www.notekeeper.*
 
 class NoteRecyclerAdapter(
     private val context: Context, private val notes: ArrayList<NoteInfo>,

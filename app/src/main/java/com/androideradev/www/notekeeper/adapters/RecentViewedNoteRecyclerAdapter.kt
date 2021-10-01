@@ -1,4 +1,4 @@
-package com.androideradev.www.notekeeper
+package com.androideradev.www.notekeeper.adapters
 
 
 import android.content.Context
@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androideradev.www.notekeeper.NoteInfo
+import com.androideradev.www.notekeeper.R
 
 class RecentViewedNoteRecyclerAdapter(val context: Context, private val recentViewedNotes: List<NoteInfo>) :
     RecyclerView.Adapter<RecentViewedNoteRecyclerAdapter.ViewHolder>() {

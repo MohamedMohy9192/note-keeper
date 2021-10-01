@@ -1,4 +1,4 @@
-package com.androideradev.www.notekeeper
+package com.androideradev.www.notekeeper.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androideradev.www.notekeeper.CourseInfo
+import com.androideradev.www.notekeeper.R
 import com.google.android.material.snackbar.Snackbar
 
 class CourseRecyclerAdapter(private val context: Context, private val courses: List<CourseInfo>) :

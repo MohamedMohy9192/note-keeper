@@ -17,7 +17,9 @@ import com.androideradev.www.notekeeper.databinding.ActivityNoteListBinding
 import com.androideradev.www.notekeeper.settings.SettingsActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import  androidx.lifecycle.Observer
+import com.androideradev.www.notekeeper.adapters.CourseRecyclerAdapter
+import com.androideradev.www.notekeeper.adapters.NoteRecyclerAdapter
+import com.androideradev.www.notekeeper.adapters.RecentViewedNoteRecyclerAdapter
 import java.util.*
 
 class NoteListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
