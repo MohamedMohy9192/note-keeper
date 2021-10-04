@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.androideradev.www.notekeeper.data.NoteDao
 import com.androideradev.www.notekeeper.data.NoteDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class NoteListActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -60,13 +61,36 @@ class NoteListActivityViewModel(application: Application) : AndroidViewModel(app
     }
 
     private fun getAllNotes(): LiveData<List<NoteInfo>> {
-        var notesFromDatabase: LiveData<List<NoteInfo>> =  MutableLiveData<List<NoteInfo>>()
+        var notesFromDatabase: LiveData<List<NoteInfo>> = MutableLiveData<List<NoteInfo>>()
         viewModelScope.launch {
             notesFromDatabase = noteDao.getAllNotes()
 
         }
         return notesFromDatabase
 
+    }
+
+    fun deleteNote(note: NoteInfo) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            noteDao.deleteNote(note)
+
+        }
+    }
+
+    fun updateNotes(notes: List<NoteInfo>) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            noteDao.updateNotes(notes)
+
+        }
+    }
+    fun updateNote(vararg note: NoteInfo) {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            noteDao.updateNote(*note)
+
+        }
     }
 
 }
