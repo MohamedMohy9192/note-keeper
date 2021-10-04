@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 data class CourseInfo(
     @ColumnInfo(name = "course_id") val courseId: String,
@@ -22,5 +21,5 @@ data class NoteInfo(
     @Embedded var course: CourseInfo? = null,
     var title: String? = null,
     var text: String? = null,
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
 )
