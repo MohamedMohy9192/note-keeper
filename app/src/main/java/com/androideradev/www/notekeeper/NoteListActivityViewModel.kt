@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.androideradev.www.notekeeper.data.NoteDao
 import com.androideradev.www.notekeeper.data.NoteDatabase
+import com.androideradev.www.notekeeper.data.NoteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,15 +18,15 @@ class NoteListActivityViewModel(application: Application) : AndroidViewModel(app
     private val maxRecentlyViewedNotes = 5
     val recentlyViewedNotes = ArrayList<NoteInfo>(maxRecentlyViewedNotes)
 
+
+    private val noteRepository = NoteRepository(application, viewModelScope)
     var notesFromDatabase: LiveData<List<NoteInfo>> = MutableLiveData<List<NoteInfo>>()
-    private var noteDao: NoteDao
+
+
 
     init {
         Log.i("NoteListViewModel", "Init Block Invoked")
-        val noteDatabase = NoteDatabase.getDatabase(application)
-        this.noteDao = noteDatabase!!.noteDao()
         notesFromDatabase = getAllNotes()
-
     }
 
     fun addToRecentlyViewedNotes(note: NoteInfo) {
@@ -61,36 +62,18 @@ class NoteListActivityViewModel(application: Application) : AndroidViewModel(app
     }
 
     private fun getAllNotes(): LiveData<List<NoteInfo>> {
-        var notesFromDatabase: LiveData<List<NoteInfo>> = MutableLiveData<List<NoteInfo>>()
-        viewModelScope.launch {
-            notesFromDatabase = noteDao.getAllNotes()
-
-        }
-        return notesFromDatabase
-
+        return noteRepository.getAllNotes()
     }
 
     fun deleteNote(note: NoteInfo) {
-        viewModelScope.launch(Dispatchers.IO) {
-
-            noteDao.deleteNote(note)
-
-        }
+        noteRepository.deleteNote(note)
     }
 
     fun updateNotes(notes: List<NoteInfo>) {
-        viewModelScope.launch(Dispatchers.IO) {
-
-            noteDao.updateNotes(notes)
-
-        }
+        noteRepository.updateNotes(notes)
     }
     fun updateNote(vararg note: NoteInfo) {
-        viewModelScope.launch(Dispatchers.IO) {
-
-            noteDao.updateNote(*note)
-
-        }
+       noteRepository.updateNote(*note)
     }
 
 }
