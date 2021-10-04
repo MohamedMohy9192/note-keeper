@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androideradev.www.notekeeper.*
 
 class NoteRecyclerAdapter(
-    private val context: Context, private val notes: ArrayList<NoteInfo>,
+    private val context: Context, private var notes: List<NoteInfo>,
     private val itemClickListener: OnNoteItemClickListener
 ) :
     RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
@@ -35,6 +35,7 @@ class NoteRecyclerAdapter(
         holder.noteCourseNameTextView.text = note.course?.title
         holder.noteTitleTextView.text = note.title
         holder.currentPosition = position
+        holder.currentNoteId = note.id
     }
 
     override fun getItemCount(): Int {
@@ -42,8 +43,11 @@ class NoteRecyclerAdapter(
     }
 
     fun setNotesFromDatabase(notesFromDatabase: List<NoteInfo>) {
-        notes.addAll(notesFromDatabase)
-        notifyItemRangeInserted(notes.lastIndex,  notesFromDatabase.size)
+      //  notes.addAll(notesFromDatabase)
+        notes = notesFromDatabase
+       // notifyItemRangeInserted(notes.lastIndex,  notesFromDatabase.size)
+        notifyDataSetChanged()
+
     }
 
     // A nested class marked as inner can access the members of its outer class.
@@ -52,6 +56,7 @@ class NoteRecyclerAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var currentPosition = -1
+        var currentNoteId = -1
 
         val noteCourseNameTextView: TextView = itemView.findViewById(R.id.course_name_text_view)
         val noteTitleTextView: TextView = itemView.findViewById(R.id.note_title_text_view)
@@ -60,9 +65,11 @@ class NoteRecyclerAdapter(
         init {
 
             itemView.setOnClickListener {
+                // TODO PASS THE ID OF THE NOTE INSTEAD OF POSITION
+
                 context.startActivity(
                     Intent(context, NoteActivity::class.java).putExtra(
-                        NOTE_POSITION, currentPosition
+                        NOTE_ID, currentNoteId
                     )
                 )
                 itemClickListener.onNoteItemClick(notes[currentPosition])
@@ -72,9 +79,10 @@ class NoteRecyclerAdapter(
                 Log.i(tag, "Note Delete Icon has Clicked $currentPosition")
                 // Delete the note from recent viewed if exist
                 itemClickListener.onNoteItemDelete(notes[currentPosition])
-                DataManager.notes.removeAt(currentPosition)
-                notifyItemRemoved(currentPosition)
-                notifyItemRangeChanged(currentPosition, DataManager.notes.size)
+              //  DataManager.notes.removeAt(currentPosition)
+
+                //notifyItemRemoved(currentPosition)
+               //notifyItemRangeChanged(currentPosition, notes.size)
 
 
             }
