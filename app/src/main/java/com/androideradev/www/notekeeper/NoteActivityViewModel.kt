@@ -2,12 +2,8 @@ package com.androideradev.www.notekeeper
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.androideradev.www.notekeeper.data.NoteDao
-import com.androideradev.www.notekeeper.data.NoteDatabase
 import com.androideradev.www.notekeeper.data.NoteRepository
-import kotlinx.coroutines.*
 
 class NoteActivityViewModel(application: Application) : AndroidViewModel(application) {
 

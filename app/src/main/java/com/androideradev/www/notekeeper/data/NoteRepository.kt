@@ -14,7 +14,7 @@ class NoteRepository(application: Application, private val coroutineScope: Corou
     private var noteDao: NoteDao
 
     init {
-        val noteDatabase = NoteDatabase.getDatabase(application)
+        val noteDatabase = AppDatabase.getDatabase(application)
         this.noteDao = noteDatabase!!.noteDao()
     }
 

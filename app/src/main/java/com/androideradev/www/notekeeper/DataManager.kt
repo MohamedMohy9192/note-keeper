@@ -7,7 +7,7 @@ object DataManager {
 
     init {
         initializeCourses()
-        initializeNotes()
+      //  initializeNotes()
     }
 
     fun loadNotes(vararg noteIds: Int): List<NoteInfo> {
@@ -34,13 +34,13 @@ object DataManager {
         return noteIds
     }
 
-    fun addNote(course: CourseInfo, noteTitle: String, noteText: String): Int {
+ /*   fun addNote(course: CourseInfo, noteTitle: String, noteText: String): Int {
         notes.add(NoteInfo(course, noteTitle, noteText))
 
         return notes.lastIndex
 
     }
-
+*/
     fun findNote(course: CourseInfo, noteTitle: String, noteText: String): NoteInfo? {
         for (note in notes) {
             if (course == note.course &&
@@ -67,7 +67,7 @@ object DataManager {
         courses.set(course.courseId, course)
     }
 
-    fun initializeNotes() {
+  /*  fun initializeNotes() {
 
         var course = courses["android_intents"]!!
         var note = NoteInfo(
@@ -116,5 +116,5 @@ object DataManager {
             "Remember to include SerialVersionUID to assure version compatibility"
         )
         notes.add(note)
-    }
+    }*/
 }

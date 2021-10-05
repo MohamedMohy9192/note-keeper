@@ -4,11 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.*
-import com.androideradev.www.notekeeper.data.NoteDao
-import com.androideradev.www.notekeeper.data.NoteDatabase
 import com.androideradev.www.notekeeper.data.NoteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class NoteListActivityViewModel(application: Application) : AndroidViewModel(application) {
     var navUserSelection: Int = R.id.nav_notes

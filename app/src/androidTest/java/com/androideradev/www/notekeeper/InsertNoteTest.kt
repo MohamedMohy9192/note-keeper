@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.androideradev.www.notekeeper.data.NoteDao
-import com.androideradev.www.notekeeper.data.NoteDatabase
+import com.androideradev.www.notekeeper.data.AppDatabase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -16,13 +16,13 @@ import java.io.IOException
 class InsertNoteTest {
 
     private lateinit var noteDao: NoteDao
-    private lateinit var db: NoteDatabase
+    private lateinit var db: AppDatabase
 
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, NoteDatabase::class.java
+            context, AppDatabase::class.java
         ).build()
         noteDao = db.noteDao()
     }
