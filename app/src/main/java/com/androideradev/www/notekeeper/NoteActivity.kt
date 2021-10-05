@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.androideradev.www.notekeeper.databinding.ActivityNoteBinding
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NoteActivity : AppCompatActivity() {
 
@@ -79,7 +81,7 @@ class NoteActivity : AppCompatActivity() {
 
     private fun displayNote() {
         lifecycleScope.launch {
-           noteInfo = viewModel.getNote(noteId)
+            noteInfo = viewModel.getNote(noteId)
 
 
 
@@ -91,11 +93,21 @@ class NoteActivity : AppCompatActivity() {
 
             val courseIndex = DataManager.courses.values.indexOf(noteInfo.course)
             binding.contentNote.coursesSpinner.setSelection(courseIndex)
+
+            binding.contentNote.lastUpdatedTextView.text = formattedDate(noteInfo.date)
         }
 
 
-
     }
+
+
+    private fun formattedDate(value: Date?): String {
+
+        val simpleDateFormat = SimpleDateFormat("HH:mm d MMM, yyyy", Locale.getDefault())
+
+        return "Last Updated: ${if (value == null) "NOT FOUND" else simpleDateFormat.format(value)}"
+    }
+
 
 /*
     private fun moveNext() {
@@ -119,21 +131,23 @@ class NoteActivity : AppCompatActivity() {
         // val note = DataManager.notes[notePosition]
 
 
-
-
         if (noteId != NOTE_ID_NOT_SET) {
             noteInfo.title = binding.contentNote.noteTitleEditText.text.toString()
             noteInfo.text = binding.contentNote.noteTextEditText.text.toString()
 
             noteInfo.course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
+
+            val date = Calendar.getInstance().time
+            noteInfo.date = date
             //displayNote()
-           viewModel.updateNote(noteInfo)
+            viewModel.updateNote(noteInfo)
         } else {
             val title = binding.contentNote.noteTitleEditText.text.toString()
             val text = binding.contentNote.noteTextEditText.text.toString()
 
             val course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
-            val note = NoteInfo(course, title, text)
+            val date = Calendar.getInstance().time
+            val note = NoteInfo(course, title, text, date)
             // createNewNote()
             // viewModel.updateNote(note)
             viewModel.insertNote(note)
