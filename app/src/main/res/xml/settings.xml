@@ -64,4 +64,21 @@
             android:title="New course notification"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="About"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:defaultValue="1.0"
+            android:key="key_app_version"
+            android:summary="1.0"
+            android:title="Version"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="key_privacy_policy"
+            android:title="Privacy policy"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
 </PreferenceScreen>
