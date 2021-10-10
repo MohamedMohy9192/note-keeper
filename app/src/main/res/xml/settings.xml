@@ -66,19 +66,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="About"
+        android:title="@string/settings_about_category_title"
         app:iconSpaceReserved="false">
 
         <Preference
             android:defaultValue="1.0"
-            android:key="key_app_version"
-            android:summary="1.0"
-            android:title="Version"
+            android:key="@string/settings_app_version_key"
+            android:summary="@string/settings_app_version_summary"
+            android:title="@string/settings_app_version_title"
             app:iconSpaceReserved="false" />
 
         <Preference
-            android:key="key_privacy_policy"
-            android:title="Privacy policy"
+            android:key="@string/settings_privacy_policy_key"
+            android:title="@string/settings_privacy_policy_title"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -47,5 +47,11 @@
     <string name="settings_auto_download_title">Auto download</string>
     <string name="settings_new_course_notification_key">key_new_course_notification</string>
     <string name="settings_new_course_notification_title">New course notification</string>
+    <string name="settings_about_category_title">About</string>
+    <string name="settings_app_version_key">key_app_version</string>
+    <string name="settings_app_version_summary">1.0</string>
+    <string name="settings_app_version_title">Version</string>
+    <string name="settings_privacy_policy_key">key_privacy_policy</string>
+    <string name="settings_privacy_policy_title">Privacy policy</string>
 
 </resources>
