@@ -38,5 +38,14 @@
     <string name="settings_note_level_key">key_note_level</string>
     <string name="settings_note_level_title">Note default level</string>
     <string name="settings_note_level_dialog_title">Select default note level</string>
+    <string name="settings_app_category_title">App</string>
+    <string name="settings_account_settings_key">key_account_settings</string>
+    <string name="settings_account_settings_summary">Privacy, security</string>
+    <string name="settings_account_settings_title">Account settings</string>
+    <string name="settings_auto_download_key">key_auto_download</string>
+    <string name="settings_auto_download_summary">Automatically download data when connected to wi-fi</string>
+    <string name="settings_auto_download_title">Auto download</string>
+    <string name="settings_new_course_notification_key">key_new_course_notification</string>
+    <string name="settings_new_course_notification_title">New course notification</string>
 
 </resources>

@@ -42,26 +42,26 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="App"
+        android:title="@string/settings_app_category_title"
         app:iconSpaceReserved="false">
 
         <Preference
-            android:key="key_account_settings"
-            android:summary="Privacy, security"
-            android:title="Account settings"
+            android:key="@string/settings_account_settings_key"
+            android:summary="@string/settings_account_settings_summary"
+            android:title="@string/settings_account_settings_title"
             app:iconSpaceReserved="false" />
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="key_auto_download"
-            android:summary="Automatically download data when connected to wi-fi"
-            android:title="Auto download"
+            android:key="@string/settings_auto_download_key"
+            android:summary="@string/settings_auto_download_summary"
+            android:title="@string/settings_auto_download_title"
             app:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
             android:defaultValue="true"
-            android:key="key_new_course_notification"
-            android:title="New course notification"
+            android:key="@string/settings_new_course_notification_key"
+            android:title="@string/settings_new_course_notification_title"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
