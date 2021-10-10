@@ -24,5 +24,19 @@
     <string name="send_title_nav_menu">Send</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_general_category_title">General</string>
+    <string name="settings_status_default_value">Turn wounds into wisdom</string>
+    <string name="settings_status_key">key_status</string>
+    <string name="settings_status_title">Status</string>
+    <string name="settings_status_dialog_title">Update status</string>
+    <string name="settings_track_recent_notes_key">track_recent_notes</string>
+    <string name="settings_track_recent_notes_summary">Keep track of recent visited notes</string>
+    <string name="settings_track_recent_notes_title">Track Recent Notes</string>
+    <string name="settings_recent_notes_count_key">key_recent_notes_count</string>
+    <string name="settings_recent_notes_count_title">Recent notes count</string>
+    <string name="settings_recent_notes_count_dialog_title">Select recent visited notes counts to display</string>
+    <string name="settings_note_level_key">key_note_level</string>
+    <string name="settings_note_level_title">Note default level</string>
+    <string name="settings_note_level_dialog_title">Select default note level</string>
 
 </resources>

@@ -2,39 +2,39 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
-        android:title="General"
+        android:title="@string/settings_general_category_title"
         app:iconSpaceReserved="false">
 
         <EditTextPreference
-            android:defaultValue="Turn wounds into wisdom"
-            android:key="key_status"
-            android:title="Status"
-            app:dialogTitle="Update status"
+            android:defaultValue="@string/settings_status_default_value"
+            android:key="@string/settings_status_key"
+            android:title="@string/settings_status_title"
+            app:dialogTitle="@string/settings_status_dialog_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             android:defaultValue="false"
-            android:key="track_recent_notes"
-            android:summary="Keep track of recent visited notes"
-            android:title="Track Recent Notes"
+            android:key="@string/settings_track_recent_notes_key"
+            android:summary="@string/settings_track_recent_notes_summary"
+            android:title="@string/settings_track_recent_notes_title"
             app:iconSpaceReserved="false" />
 
         <ListPreference
-            android:dependency="track_recent_notes"
+            android:dependency="@string/settings_track_recent_notes_key"
             android:entries="@array/entries_recent_display_count"
             android:entryValues="@array/values_recent_display_count"
-            android:key="key_recent_notes_count"
-            android:title="Recent notes count"
-            app:dialogTitle="Select recent visited notes counts to display"
+            android:key="@string/settings_recent_notes_count_key"
+            android:title="@string/settings_recent_notes_count_title"
+            app:dialogTitle="@string/settings_recent_notes_count_dialog_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
         <ListPreference
             android:entries="@array/entries_note_level"
             android:entryValues="@array/values_note_level"
-            android:key="key_note_level"
-            android:title="Note default level"
-            app:dialogTitle="Select default note level"
+            android:key="@string/settings_note_level_key"
+            android:title="@string/settings_note_level_title"
+            app:dialogTitle="@string/settings_note_level_dialog_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
