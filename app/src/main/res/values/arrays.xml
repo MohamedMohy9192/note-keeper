@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entries_note_level">
+        <st>Beginner</st>
+        <item>Intermediate</item>
+        <item>Advanced</item>
+    </string-array>
+
+    <string-array name="values_note_level">
+        <item>beginner</item>
+        <item>intermediate</item>
+        <item>advanced</item>
+    </string-array>
+
+    <string-array name="entries_recent_display_count">
+        <item>The last visited note</item>
+        <item>The last two visited note</item>
+        <item>The last three visited note</item>
+        <item>The last four visited note</item>
+        <item>The last five visited note</item>
+    </string-array>
+
+    <integer-array name="values_recent_display_count">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </integer-array>
+</resources>

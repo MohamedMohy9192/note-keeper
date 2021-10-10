@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="General"
+        app:iconSpaceReserved="false">
 
-    <SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:key="display_recent_notes"
-        android:title="Display Recent Notes"
-        app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue="Turn wounds into wisdom"
+            android:key="key_status"
+            android:title="Status"
+            app:dialogTitle="Update status"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="track_recent_notes"
+            android:summary="Keep track of recent visited notes"
+            android:title="Track Recent Notes"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:dependency="track_recent_notes"
+            android:entries="@array/entries_recent_display_count"
+            android:entryValues="@array/values_recent_display_count"
+            android:key="key_recent_notes_count"
+            android:title="Recent notes count"
+            app:dialogTitle="Select recent visited notes counts to display"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:entries="@array/entries_note_level"
+            android:entryValues="@array/values_note_level"
+            android:key="key_note_level"
+            android:title="Note default level"
+            app:dialogTitle="Select default note level"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+
+    </PreferenceCategory>
 </PreferenceScreen>
