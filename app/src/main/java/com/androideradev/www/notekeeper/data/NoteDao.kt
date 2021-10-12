@@ -20,8 +20,10 @@ interface NoteDao {
     fun getAllNotes(): LiveData<List<NoteInfo>>
 
 
+    /* An @Update method can optionally return an int value
+     indicating the number of rows that were updated successfully.*/
     @Update
-    fun updateNote(vararg note: NoteInfo)
+    fun updateNote(vararg note: NoteInfo): Int
 
     /*    @Query("SELECT * FROM notes WHERE id = :id")
         fun getNote(id: Int) : LiveData<NoteInfo>*/
@@ -33,7 +35,9 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE id = :id")
     fun getNote(id: Int): NoteInfo
 
+    /* @Delete method can optionally return an int value
+     indicating the number of rows that were deleted successfully.*/
     @Delete
-    fun deleteNote(note :NoteInfo)
+    fun deleteNote(vararg note: NoteInfo): Int
 
 }
