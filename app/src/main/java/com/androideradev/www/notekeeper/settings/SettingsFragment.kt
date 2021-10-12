@@ -3,13 +3,10 @@ package com.androideradev.www.notekeeper.settings
 import android.os.Bundle
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
-import androidx.preference.EditTextPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 import com.androideradev.www.notekeeper.R
 
-class SettingsFragment : PreferenceFragmentCompat(){
+class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
 
@@ -49,8 +46,20 @@ class SettingsFragment : PreferenceFragmentCompat(){
             }
 
 
-
         }
+
+        val notificationPref =
+            findPreference<SwitchPreferenceCompat>(getString(R.string.settings_new_course_notification_key))
+        notificationPref?.summaryProvider =
+            Preference.SummaryProvider<SwitchPreferenceCompat> { switchPreference ->
+
+                if (switchPreference.isChecked) {
+                    "Status: ON"
+                } else {
+                    "Status: OFF"
+                }
+
+            }
     }
 
 

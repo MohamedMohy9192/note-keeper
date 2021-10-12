@@ -79,6 +79,10 @@
         <Preference
             android:key="@string/settings_privacy_policy_key"
             android:title="@string/settings_privacy_policy_title"
-            app:iconSpaceReserved="false" />
+            app:iconSpaceReserved="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/MohamedMohy9192/note-keeper" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
