@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="entries_note_level">
-        <st>Beginner</st>
+        <item>Beginner</item>
         <item>Intermediate</item>
         <item>Advanced</item>
     </string-array>
