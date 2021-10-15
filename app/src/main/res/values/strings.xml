@@ -54,4 +54,6 @@
     <string name="settings_privacy_policy_key">key_privacy_policy</string>
     <string name="settings_privacy_policy_title">Privacy policy</string>
 
+    <string name="reminder_notification_title" >Review: %1$s</string>
+
 </resources>

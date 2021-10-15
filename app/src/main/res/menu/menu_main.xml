@@ -11,14 +11,19 @@
         android:id="@+id/action_back"
         android:icon="@drawable/ic_baseline_arrow_back_24"
         android:title="Previous"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_next"
         android:icon="@drawable/ic_arrow_forward_24"
         android:title="Next"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_get_together"
         android:title="SEND"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_notification"
+        android:icon="@drawable/ic_baseline_notifications_24"
+        android:title="Notification"
+        app:showAsAction="always" />
 </menu>
