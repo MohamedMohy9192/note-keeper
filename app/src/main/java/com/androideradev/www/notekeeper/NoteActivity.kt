@@ -2,11 +2,14 @@ package com.androideradev.www.notekeeper
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.androideradev.www.notekeeper.databinding.ActivityNoteBinding
+import com.androideradev.www.notekeeper.notifications.ReminderNotification
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,6 +63,7 @@ class NoteActivity : AppCompatActivity() {
         }
 
 
+        ReminderNotification.createNotificationChannel(this)
         noteGetTogetherHelper = NoteGetTogetherHelper(this, lifecycle)
 
     }
@@ -162,7 +166,6 @@ class NoteActivity : AppCompatActivity() {
         outState.putInt(NOTE_POSITION, notePosition)
     }*/
 
-/*
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -177,21 +180,24 @@ class NoteActivity : AppCompatActivity() {
             R.id.action_settings -> true
             R.id.action_next -> {
                 //Increment notePosition then display the note
-                moveNext()
+              //  moveNext()
                 return true
             }
             R.id.action_back -> {
-                moveBack()
+               // moveBack()
                 return true
             }
             R.id.action_get_together -> {
-                noteGetTogetherHelper.sendMessage(DataManager.loadNote(notePosition))
+             //   noteGetTogetherHelper.sendMessage(DataManager.loadNote(notePosition))
                 true
+            }
+            R.id.action_notification -> {
+                ReminderNotification.notify(this, noteInfo.title!!, noteInfo.text!!, noteId)
+                return true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
-*/
 
 
     /* override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
