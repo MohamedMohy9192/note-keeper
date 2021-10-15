@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.androideradev.www.notekeeper.NOTE_ID
+import com.androideradev.www.notekeeper.NoteActivity
 import com.androideradev.www.notekeeper.R
 
 
@@ -18,6 +20,8 @@ object ReminderNotification {
 
     fun notify(context: Context, titleText: String, noteText: String, noteId: Int) {
 
+        val startNoteActivity = Intent(context, NoteActivity::class.java)
+        startNoteActivity.putExtra(NOTE_ID, noteId)
 
         val shareIntent = PendingIntent.getActivity(
             context,
@@ -46,6 +50,14 @@ object ReminderNotification {
                 R.drawable.ic_baseline_share_24,
                 "Share", shareIntent
             )
+            .setContentIntent(
+                PendingIntent.getActivity(
+                    context, REMINDER_NOTIFICATION_ID,
+                    startNoteActivity,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+                )
+            )
+            .setAutoCancel(true)
 
         notify(context, builder.build())
 
