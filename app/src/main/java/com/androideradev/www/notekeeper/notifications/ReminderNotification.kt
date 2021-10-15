@@ -1,9 +1,6 @@
 package com.androideradev.www.notekeeper.notifications
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -22,6 +19,10 @@ object ReminderNotification {
 
         val startNoteActivity = Intent(context, NoteActivity::class.java)
         startNoteActivity.putExtra(NOTE_ID, noteId)
+
+        val pendingIntent =
+            TaskStackBuilder.create(context).addNextIntentWithParentStack(startNoteActivity)
+                .getPendingIntent(REMINDER_NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val shareIntent = PendingIntent.getActivity(
             context,
@@ -51,11 +52,7 @@ object ReminderNotification {
                 "Share", shareIntent
             )
             .setContentIntent(
-                PendingIntent.getActivity(
-                    context, REMINDER_NOTIFICATION_ID,
-                    startNoteActivity,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-                )
+                pendingIntent
             )
             .setAutoCancel(true)
 

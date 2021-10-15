@@ -26,7 +26,8 @@
         <activity
             android:name=".NoteActivity"
             android:label="Edit Note"
-            android:theme="@style/Theme.NoteKeeper.NoActionBar"></activity>
+            android:theme="@style/Theme.NoteKeeper.NoActionBar"
+            android:parentActivityName=".NoteListActivity"/>
     </application>
 
 </manifest>
