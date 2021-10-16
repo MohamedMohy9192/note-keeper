@@ -66,6 +66,8 @@ class NoteActivity : AppCompatActivity() {
         ReminderNotification.createNotificationChannel(this)
         noteGetTogetherHelper = NoteGetTogetherHelper(this, lifecycle)
 
+
+
     }
 
     private fun createNewNote() {
@@ -180,19 +182,43 @@ class NoteActivity : AppCompatActivity() {
             R.id.action_settings -> true
             R.id.action_next -> {
                 //Increment notePosition then display the note
-              //  moveNext()
+                //  moveNext()
                 return true
             }
             R.id.action_back -> {
-               // moveBack()
+                // moveBack()
                 return true
             }
             R.id.action_get_together -> {
-             //   noteGetTogetherHelper.sendMessage(DataManager.loadNote(notePosition))
+                //   noteGetTogetherHelper.sendMessage(DataManager.loadNote(notePosition))
                 true
             }
             R.id.action_notification -> {
-                ReminderNotification.notify(this, noteInfo.title!!, noteInfo.text!!, noteId)
+                //   ReminderNotification.notify(this, noteInfo.title!!, noteInfo.text!!, noteId)
+
+                // Big Picture Style
+                /*ReminderNotification.notify(
+                    this,
+                    noteInfo.title!!,
+                    noteInfo.text!!,
+                    R.drawable.gull_portrait_ca_usa,
+                    noteId
+                )*/
+
+                // Big Text Style
+                ReminderNotification.notify(
+                    this,
+                    "Collapsed Title",
+                    "Collapsed Body Text",
+                    R.drawable.ic_baseline_emoji_emotions_24,
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempor dolor et odio porta dictum. Ut ex urna, imperdiet sed.",
+                    " Big Content Title",
+                    " Summary Text",
+                    noteId
+                )
+
+                // Inbox Style
+                ReminderNotification.notify(this, noteId)
                 return true
             }
             else -> super.onOptionsItemSelected(item)
