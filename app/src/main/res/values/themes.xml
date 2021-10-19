@@ -56,4 +56,12 @@
         <item name="android:textColorHint">@android:color/holo_red_light</item>
     </style>
 
+    <style name="Theme.NoteKeeper.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <item name="appWidgetRadius">8dp</item>
+        <item name="appWidgetPadding">4dp</item>
+        <item name="appWidgetInnerRadius">4dp</item>
+    </style>
+
+    <style name="Theme.NoteKeeper.AppWidgetContainer" parent="Theme.NoteKeeper.AppWidgetContainerParent" />
+
 </resources>
