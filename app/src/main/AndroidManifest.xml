@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteKeeper">
         <receiver
-            android:name=".NoteKeeperAppWidget"
+            android:name=".widget.NoteKeeperAppWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -23,6 +23,9 @@
 
         <activity
             android:name=".settings.SettingsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".NoteListActivity"
