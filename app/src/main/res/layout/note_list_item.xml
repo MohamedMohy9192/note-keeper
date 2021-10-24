@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                app:layout_constraintEnd_toStartOf="@+id/note_color_image_view"
                 app:layout_constraintTop_toTopOf="@+id/course_name_text_view"
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
 
@@ -61,13 +61,12 @@
                 tools:text="TextView" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/note_color_image_view"
                 android:layout_width="20dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/red_rectangle" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

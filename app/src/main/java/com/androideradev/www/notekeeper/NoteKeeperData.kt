@@ -23,5 +23,6 @@ data class NoteInfo(
     var title: String? = null,
     var text: String? = null,
     @ColumnInfo(name = "last_updated_time") var date: Date?,
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @ColumnInfo(name = "note_color") var noteColor: Int = 0
 )

@@ -1,5 +1,6 @@
 package com.androideradev.www.notekeeper
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -27,6 +28,7 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var viewModel: NoteActivityViewModel
 
     lateinit var noteInfo: NoteInfo
+    private var noteColor = Color.TRANSPARENT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +64,12 @@ class NoteActivity : AppCompatActivity() {
             createNewNote()
         }
 
+        binding.contentNote.colorSelectorView?.addListener { color ->
+            noteColor = color
+        }
 
         ReminderNotification.createNotificationChannel(this)
         noteGetTogetherHelper = NoteGetTogetherHelper(this, lifecycle)
-
-
-
     }
 
     private fun createNewNote() {
@@ -101,11 +103,45 @@ class NoteActivity : AppCompatActivity() {
             binding.contentNote.coursesSpinner.setSelection(courseIndex)
 
             binding.contentNote.lastUpdatedTextView.text = formattedDate(noteInfo.date)
+            binding.contentNote.colorSelectorView?.selectedColorValue = noteInfo.noteColor
+            noteColor = noteInfo.noteColor
+
         }
 
 
     }
 
+
+    private fun saveNote() {
+        // val note = DataManager.notes[notePosition]
+
+
+        if (noteId != NOTE_ID_NOT_SET) {
+            noteInfo.title = binding.contentNote.noteTitleEditText.text.toString()
+            noteInfo.text = binding.contentNote.noteTextEditText.text.toString()
+
+            noteInfo.course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
+
+            val date = Calendar.getInstance().time
+            noteInfo.date = date
+
+            noteInfo.noteColor = noteColor
+            //displayNote()
+            viewModel.updateNote(noteInfo)
+        } else {
+            val title = binding.contentNote.noteTitleEditText.text.toString()
+            val text = binding.contentNote.noteTextEditText.text.toString()
+
+            val course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
+            val date = Calendar.getInstance().time
+            val note = NoteInfo(course, title, text, date, noteColor = noteColor)
+            // createNewNote()
+            // viewModel.updateNote(note)
+            viewModel.insertNote(note)
+
+        }
+
+    }
 
     private fun formattedDate(value: Date?): String {
 
@@ -133,34 +169,6 @@ class NoteActivity : AppCompatActivity() {
     }
 */
 
-    private fun saveNote() {
-        // val note = DataManager.notes[notePosition]
-
-
-        if (noteId != NOTE_ID_NOT_SET) {
-            noteInfo.title = binding.contentNote.noteTitleEditText.text.toString()
-            noteInfo.text = binding.contentNote.noteTextEditText.text.toString()
-
-            noteInfo.course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
-
-            val date = Calendar.getInstance().time
-            noteInfo.date = date
-            //displayNote()
-            viewModel.updateNote(noteInfo)
-        } else {
-            val title = binding.contentNote.noteTitleEditText.text.toString()
-            val text = binding.contentNote.noteTextEditText.text.toString()
-
-            val course = binding.contentNote.coursesSpinner.selectedItem as CourseInfo
-            val date = Calendar.getInstance().time
-            val note = NoteInfo(course, title, text, date)
-            // createNewNote()
-            // viewModel.updateNote(note)
-            viewModel.insertNote(note)
-
-        }
-
-    }
 
 
 /*    override fun onSaveInstanceState(outState: Bundle) {

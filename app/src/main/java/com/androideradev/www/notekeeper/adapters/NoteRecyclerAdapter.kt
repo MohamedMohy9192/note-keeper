@@ -2,12 +2,15 @@ package com.androideradev.www.notekeeper.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.shapes.Shape
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.androideradev.www.notekeeper.*
 
@@ -34,6 +37,8 @@ class NoteRecyclerAdapter(
         val note = notes[position]
         holder.noteCourseNameTextView.text = note.course?.title
         holder.noteTitleTextView.text = note.title
+
+        holder.noteColorImageView.setBackgroundColor(note.noteColor)
         holder.currentPosition = position
         holder.currentNoteId = note.id
     }
@@ -61,6 +66,7 @@ class NoteRecyclerAdapter(
         val noteCourseNameTextView: TextView = itemView.findViewById(R.id.course_name_text_view)
         val noteTitleTextView: TextView = itemView.findViewById(R.id.note_title_text_view)
         val noteDeleteIcon: ImageView = itemView.findViewById(R.id.delete_note_image_view)
+        val noteColorImageView: ImageView = itemView.findViewById(R.id.note_color_image_view)
 
         init {
 

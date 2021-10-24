@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
 
@@ -15,9 +16,28 @@ class ColorSelector @JvmOverloads constructor(
     private val colors = listOf(Color.RED, Color.BLUE, Color.GREEN)
     private var selectedColorIndex = 0
 
-    private var leftArrowImageView: ImageView
-    private var rightArrowImageView: ImageView
     private var colorView: View
+    private var colorStatusCheckBox: CheckBox
+
+    // set color selector views based on each note
+    var selectedColorValue = Color.TRANSPARENT
+        set(value) {
+            //Get the index of color
+            var colorIndex = colors.indexOf(value)
+            if (colorIndex == -1) {
+                // No color selected
+                colorStatusCheckBox.isChecked = false
+                colorIndex = 0
+            } else {
+                colorStatusCheckBox.isChecked = true
+            }
+
+            selectedColorIndex = colorIndex
+            //set the color on the view
+            colorView.setBackgroundColor(colors[selectedColorIndex])
+        }
+
+    private var colorSelectorListeners: ArrayList<((Int) -> Unit)> = arrayListOf()
 
     init {
         orientation = HORIZONTAL
@@ -27,29 +47,38 @@ class ColorSelector @JvmOverloads constructor(
         val view = layoutInflater.inflate(R.layout.color_selector, this)
 
         colorView = view.findViewById(R.id.color_select_view)
+        colorStatusCheckBox = view.findViewById(R.id.color_select_status_checkbox)
+
         colorView.setBackgroundColor(colors[selectedColorIndex])
 
-        leftArrowImageView = view.findViewById(R.id.color_select_left_arrow)
+        view.findViewById<ImageView>(R.id.color_select_left_arrow)
+            .setOnClickListener {
+                selectPreviousColor()
+            }
 
-        leftArrowImageView.setOnClickListener {
-            selectPreviousColor()
+        view.findViewById<ImageView>(R.id.color_select_right_arrow)
+            .setOnClickListener {
+                selectNextColor()
+            }
+
+        colorStatusCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            changeColor()
         }
+    }
 
-        rightArrowImageView = view.findViewById(R.id.color_select_right_arrow)
-
-        rightArrowImageView.setOnClickListener {
-            selectNextColor()
-        }
+    fun addListener(function: (Int) -> Unit) {
+        this.colorSelectorListeners.add(function)
     }
 
     private fun selectNextColor() {
         if (selectedColorIndex == colors.lastIndex) {
             selectedColorIndex = 0
 
-        }else{
+        } else {
             selectedColorIndex++
         }
         colorView.setBackgroundColor(colors[selectedColorIndex])
+        changeColor()
 
     }
 
@@ -57,11 +86,26 @@ class ColorSelector @JvmOverloads constructor(
         if (selectedColorIndex == 0) {
             selectedColorIndex = colors.lastIndex
 
-        }else{
+        } else {
             selectedColorIndex--
         }
 
         colorView.setBackgroundColor(colors[selectedColorIndex])
+        changeColor()
 
+    }
+
+    private fun changeColor() {
+        val color = if (colorStatusCheckBox.isChecked) {
+            colors[selectedColorIndex]
+        } else {
+            Color.TRANSPARENT
+        }
+
+        //this.colorSelectorListener(color)
+
+        this.colorSelectorListeners.forEach { function ->
+            function(color)
+        }
     }
 }
