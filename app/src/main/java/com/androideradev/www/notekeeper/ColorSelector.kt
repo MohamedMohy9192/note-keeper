@@ -13,7 +13,7 @@ class ColorSelector @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0,
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private val colors = listOf(Color.RED, Color.BLUE, Color.GREEN)
+    private var colors = listOf(Color.RED, Color.BLUE, Color.GREEN)
     private var selectedColorIndex = 0
 
     private var colorView: View
@@ -40,6 +40,16 @@ class ColorSelector @JvmOverloads constructor(
     private var colorSelectorListeners: ArrayList<((Int) -> Unit)> = arrayListOf()
 
     init {
+        // Look for the attributes associated with this view
+        // and pull out the colorSelector styleable if there is one defined
+        val typedArray  = context.obtainStyledAttributes(attrs, R.styleable.ColorSelector)
+
+        colors = typedArray.getTextArray(R.styleable.ColorSelector_colors)
+            .map {
+                Color.parseColor(it.toString())
+            }
+        typedArray.recycle()
+
         orientation = HORIZONTAL
 
         val layoutInflater =
