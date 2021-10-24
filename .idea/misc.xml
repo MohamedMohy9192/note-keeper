@@ -22,6 +22,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/menu/activity_note_list_drawer.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/NoteKeeper/app/src/main/res/menu/menu_main.xml" value="0.2296875" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/drawable/ic_add_24.xml" value="0.14814814814814814" />
+        <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/drawable/ic_arrow_left_24.xml" value="0.1675925925925926" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/drawable/ic_baseline_assignment_24.xml" value="0.14814814814814814" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.14814814814814814" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/drawable/ic_baseline_visibility_24.xml" value="0.14814814814814814" />
@@ -31,6 +32,7 @@
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/layout-land/content_note.xml" value="0.26455026455026454" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/layout/activity_main.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/layout/activity_note.xml" value="0.33" />
+        <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/layout/color_selector.xml" value="0.1" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/layout/content_note.xml" value="0.33" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/layout/item_course_list.xml" value="0.1519756838905775" />
         <entry key="..\:/Users/AndroidStudioProjects/note-keeper/app/src/main/res/layout/note_keeper_app_widget.xml" value="0.1" />
