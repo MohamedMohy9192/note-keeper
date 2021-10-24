@@ -6,20 +6,21 @@
         android:id="@+id/color_select_left_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="14dp"
+        android:layout_margin="14dp"
         app:srcCompat="@drawable/ic_arrow_left_24" />
 
     <View
         android:id="@+id/color_select_view"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_margin="14dp"/>
+        android:layout_margin="14dp" />
 
     <ImageView
         android:id="@+id/color_select_right_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="14dp"
+        android:layout_margin="14dp"
+
         app:srcCompat="@drawable/ic_arrow_right_24" />
 
 
@@ -27,12 +28,12 @@
         android:id="@+id/color_select_status_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical" />
 
     <TextView
         android:id="@+id/color_select_status_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enabled"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        android:text="Enabled" />
 </merge>
