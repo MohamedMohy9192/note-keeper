@@ -71,7 +71,7 @@ class ColorSelector @JvmOverloads constructor(
                 selectNextColor()
             }
 
-        colorStatusCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+        colorStatusCheckBox.setOnCheckedChangeListener { _, _ ->
             changeColor()
         }
     }
