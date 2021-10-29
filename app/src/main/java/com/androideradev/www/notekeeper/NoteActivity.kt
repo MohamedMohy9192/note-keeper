@@ -1,16 +1,23 @@
 package com.androideradev.www.notekeeper
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.androideradev.www.notekeeper.databinding.ActivityNoteBinding
 import com.androideradev.www.notekeeper.notifications.ReminderNotification
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,7 +35,21 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var viewModel: NoteActivityViewModel
 
     lateinit var noteInfo: NoteInfo
+
     private var noteColor = Color.TRANSPARENT
+
+    private val startSignInForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                // Handle the Intent
+
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                //the user aborted the sign-in flow and we need to exit add note activity
+                // to prevent them from proceeding and adding a new note
+                finish()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +83,8 @@ class NoteActivity : AppCompatActivity() {
             displayNote()
         } else {
             createNewNote()
+            //User try to create new note ask them to sgin in to sync their notes across many devices
+            signInToCreateNewNote()
         }
 
         binding.contentNote.colorSelectorView?.addListener { color ->
@@ -70,6 +93,17 @@ class NoteActivity : AppCompatActivity() {
 
         ReminderNotification.createNotificationChannel(this)
         noteGetTogetherHelper = NoteGetTogetherHelper(this, lifecycle)
+    }
+
+    private fun signInToCreateNewNote() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null || user.isAnonymous) {
+            startSignInForResult.launch(
+                Intent(this, MainActivity::class.java).putExtra(
+                    SIGN_IN_MESSAGE_EXTRA, "Sign-in to create a new note"
+                )
+            )
+        }
     }
 
     private fun createNewNote() {
@@ -85,6 +119,7 @@ class NoteActivity : AppCompatActivity() {
         // Log.i(tag , "Last Note inserted ID $notePosition")
 
         //   saveNote()
+
     }
 
     private fun displayNote() {
@@ -115,7 +150,7 @@ class NoteActivity : AppCompatActivity() {
     private fun saveNote() {
         // val note = DataManager.notes[notePosition]
 
-
+        val user = FirebaseAuth.getInstance().currentUser
         if (noteId != NOTE_ID_NOT_SET) {
             noteInfo.title = binding.contentNote.noteTitleEditText.text.toString()
             noteInfo.text = binding.contentNote.noteTextEditText.text.toString()
@@ -128,7 +163,7 @@ class NoteActivity : AppCompatActivity() {
             noteInfo.noteColor = noteColor
             //displayNote()
             viewModel.updateNote(noteInfo)
-        } else {
+        } else if (noteId == NOTE_ID_NOT_SET && (user != null && !(user.isAnonymous))) {
             val title = binding.contentNote.noteTitleEditText.text.toString()
             val text = binding.contentNote.noteTextEditText.text.toString()
 
@@ -168,7 +203,6 @@ class NoteActivity : AppCompatActivity() {
         invalidateOptionsMenu()
     }
 */
-
 
 
 /*    override fun onSaveInstanceState(outState: Bundle) {
