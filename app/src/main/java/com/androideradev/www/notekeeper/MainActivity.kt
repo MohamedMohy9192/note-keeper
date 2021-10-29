@@ -9,6 +9,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 
 const val USER_ID_EXTRA = "USER_ID_EXTRA"
 private val LOG_TAG = MainActivity::class.simpleName
@@ -41,13 +42,17 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
+        val countries = listOf<String>("EG", "IQ", "LY", "OM", "US")
 
         binding.signInButton.setOnClickListener {
             // Choose authentication providers
             val providers = arrayListOf(
                 AuthUI.IdpConfig.EmailBuilder().build(),
                 AuthUI.IdpConfig.GoogleBuilder().build(),
-                AuthUI.IdpConfig.FacebookBuilder().build()
+                AuthUI.IdpConfig.FacebookBuilder().build(),
+                AuthUI.IdpConfig.PhoneBuilder().setDefaultCountryIso("EG")
+                    .setWhitelistedCountries(countries)
+                    .build()
             )
 
             // Create and launch sign-in intent
@@ -69,6 +74,7 @@ class MainActivity : AppCompatActivity() {
             val launchNotesActivity = Intent(this, NoteListActivity::class.java)
             launchNotesActivity.putExtra(USER_ID_EXTRA, user?.uid)
             Log.i(LOG_TAG, user?.uid ?: "User Is Null")
+            Log.i(LOG_TAG, user?.email ?: "User email Is Null")
             startActivity(launchNotesActivity)
             finish()
             // ...
