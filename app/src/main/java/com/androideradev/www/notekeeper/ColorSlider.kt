@@ -4,7 +4,9 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.widget.SeekBar
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatSeekBar
@@ -16,6 +18,33 @@ class ColorSlider @JvmOverloads constructor(
 ) : AppCompatSeekBar(context, attrs, defStyleAttr) {
 
     private var colors: ArrayList<Int> = arrayListOf(Color.RED, Color.YELLOW, Color.BLUE)
+
+    private val tickMarksWidth = getPixelValueFromDP(16f)
+    private val tickMarksHeight = getPixelValueFromDP(16f)
+    private val halfTickMarksWidth = if (tickMarksWidth >= 0) tickMarksWidth / 2f else 1f
+    private val halfTickMarksHeight = if (tickMarksHeight >= 0) tickMarksHeight / 2f else 1f
+    private val paint = Paint()
+
+    var drawableWidth = 0
+    var drawableHeight = 0
+    var halfDrawableWidth = 1
+    var halfDrawableHeight = 1
+
+    private var noColorDrawable: Drawable? = null
+        set(value) {
+            drawableWidth = value?.intrinsicWidth ?: 0
+            drawableHeight = value?.intrinsicHeight ?: 0
+            halfDrawableWidth = if (drawableWidth >= 0) drawableWidth / 2 else 1
+            halfDrawableHeight = if (drawableHeight >= 0) drawableHeight / 2 else 1
+
+            value?.setBounds(
+                -halfDrawableWidth,
+                -halfDrawableHeight,
+                halfDrawableWidth,
+                halfDrawableHeight
+            )
+            field = value
+        }
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorSlider)
@@ -34,9 +63,15 @@ class ColorSlider @JvmOverloads constructor(
         progressTintList = ContextCompat.getColorStateList(context, android.R.color.transparent)
         splitTrack = false
 
-        setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom + 50)
+        setPadding(
+            paddingLeft,
+            paddingTop,
+            paddingRight,
+            paddingBottom + getPixelValueFromDP(16f).toInt() // Padding has to be provided as an Int
+        )
         thumb = AppCompatResources.getDrawable(context, R.drawable.ic_arrow_down_24)
-
+        noColorDrawable =
+            AppCompatResources.getDrawable(context, R.drawable.ic_baseline_clear_24)
         setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 listeners.forEach { function: (Int) -> Unit ->
@@ -66,43 +101,44 @@ class ColorSlider @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        drawTickMarks(canvas)
+    }
+
+    private fun drawTickMarks(canvas: Canvas?) {
         canvas?.let {
             val count = colors.size
             val saveCount = canvas.save()
-            canvas.translate(paddingLeft.toFloat(), (height / 2).toFloat() + 50f)
-            val w = 48f
-            val h = 48f
-            val halfW = if (w >= 0) w / 2f else 1f
-            val halfH = if (h >= 0) h / 2f else 1f
+            canvas.translate(paddingLeft.toFloat(), (height / 2).toFloat() + getPixelValueFromDP(16f))
+
             val spacing = (width - paddingLeft - paddingRight) / (count - 1).toFloat()
             if (count > 1) {
                 for (i in 0 until count) {
                     if (i == 0) {
-                        val drawable =
-                            AppCompatResources.getDrawable(context, R.drawable.ic_baseline_clear_24)
-                        val drawableWidth = drawable?.intrinsicWidth ?: 0
-                        val drawableHeight = drawable?.intrinsicHeight ?: 0
-                        val halfDrawableWidth = if (drawableWidth >= 0) drawableWidth / 2 else 1
-                        val halfDrawableHeight = if (drawableHeight >= 0) drawableHeight / 2 else 1
-
-                        drawable?.setBounds(
-                            -halfDrawableWidth,
-                            -halfDrawableHeight,
-                            halfDrawableWidth,
-                            halfDrawableHeight
-                        )
-                        drawable?.draw(canvas)
+                        noColorDrawable?.draw(canvas)
                     } else {
-                        val paint = Paint()
                         paint.color = colors[i]
-                        canvas.drawRect(-halfW, -halfH, halfW, halfH, paint)
+                        canvas.drawRect(
+                            -halfTickMarksWidth,
+                            -halfTickMarksHeight,
+                            halfTickMarksWidth,
+                            halfTickMarksHeight,
+                            paint
+                        )
                     }
-
                     canvas.translate(spacing, 0f)
                 }
                 canvas.restoreToCount(saveCount)
             }
         }
+    }
+
+    // When we draw we need to work with pixels
+    private fun getPixelValueFromDP(value: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            value,
+            context.resources.displayMetrics // Use the current device's screen attributes for conversion
+        )
     }
 
 }
