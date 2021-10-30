@@ -96,6 +96,11 @@ class NoteActivity : AppCompatActivity() {
             noteColor = color
         }
 
+        binding.contentNote.colorSelectorSeekBar?.addListener { color ->
+            noteColor = color
+
+        }
+
         ReminderNotification.createNotificationChannel(this)
         noteGetTogetherHelper = NoteGetTogetherHelper(this, lifecycle)
     }
@@ -143,7 +148,8 @@ class NoteActivity : AppCompatActivity() {
             binding.contentNote.coursesSpinner.setSelection(courseIndex)
 
             binding.contentNote.lastUpdatedTextView.text = formattedDate(noteInfo.date)
-            binding.contentNote.colorSelectorView?.selectedColorValue = noteInfo.noteColor
+            //binding.contentNote.colorSelectorView?.selectedColorValue = noteInfo.noteColor
+            binding.contentNote.colorSelectorSeekBar?.selectedColorValue = noteInfo.noteColor
             noteColor = noteInfo.noteColor
 
         }
