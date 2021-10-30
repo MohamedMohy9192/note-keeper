@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.widget.SeekBar
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.core.content.ContextCompat
@@ -35,6 +36,32 @@ class ColorSlider @JvmOverloads constructor(
 
         setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom + 50)
         thumb = AppCompatResources.getDrawable(context, R.drawable.ic_arrow_down_24)
+
+        setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                listeners.forEach { function: (Int) -> Unit ->
+                    function(colors[progress])
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+    }
+
+    var selectedColorValue: Int = android.R.color.transparent
+        set(value) {
+            val index = colors.indexOf(value)
+            progress = if (index == -1) {
+                0
+            } else {
+                index
+            }
+        }
+
+    private val listeners: ArrayList<(Int) -> Unit> = arrayListOf()
+    fun addListener(function: (Int) -> Unit) {
+        listeners.add(function)
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -43,17 +70,34 @@ class ColorSlider @JvmOverloads constructor(
             val count = colors.size
             val saveCount = canvas.save()
             canvas.translate(paddingLeft.toFloat(), (height / 2).toFloat() + 50f)
+            val w = 48f
+            val h = 48f
+            val halfW = if (w >= 0) w / 2f else 1f
+            val halfH = if (h >= 0) h / 2f else 1f
+            val spacing = (width - paddingLeft - paddingRight) / (count - 1).toFloat()
             if (count > 1) {
                 for (i in 0 until count) {
-                    val w = 48f
-                    val h = 48f
-                    val halfW = if (w >= 0) w / 2f else 1f
-                    val halfH = if (h >= 0) h / 2f else 1f
+                    if (i == 0) {
+                        val drawable =
+                            AppCompatResources.getDrawable(context, R.drawable.ic_baseline_clear_24)
+                        val drawableWidth = drawable?.intrinsicWidth ?: 0
+                        val drawableHeight = drawable?.intrinsicHeight ?: 0
+                        val halfDrawableWidth = if (drawableWidth >= 0) drawableWidth / 2 else 1
+                        val halfDrawableHeight = if (drawableHeight >= 0) drawableHeight / 2 else 1
 
-                    val spacing = (width - paddingLeft - paddingRight) / (count - 1).toFloat()
-                    val paint = Paint()
-                    paint.color = colors[i]
-                    canvas.drawRect(-halfW, -halfH, halfW, halfH, paint)
+                        drawable?.setBounds(
+                            -halfDrawableWidth,
+                            -halfDrawableHeight,
+                            halfDrawableWidth,
+                            halfDrawableHeight
+                        )
+                        drawable?.draw(canvas)
+                    } else {
+                        val paint = Paint()
+                        paint.color = colors[i]
+                        canvas.drawRect(-halfW, -halfH, halfW, halfH, paint)
+                    }
+
                     canvas.translate(spacing, 0f)
                 }
                 canvas.restoreToCount(saveCount)
