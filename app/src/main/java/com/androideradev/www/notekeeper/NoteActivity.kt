@@ -28,6 +28,7 @@ class NoteActivity : AppCompatActivity() {
     private val tag = NoteActivity::class.java.simpleName
 
     private var noteId = NOTE_ID_NOT_SET
+    private var userId = "-1"
     private var showLeftArrow = false
 
     private lateinit var binding: ActivityNoteBinding
@@ -42,7 +43,10 @@ class NoteActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
-                // Handle the Intent
+                // Handle the
+                if (intent != null && intent.hasExtra(USER_ID_EXTRA)){
+                    userId = intent.getStringExtra(USER_ID_EXTRA) ?: "-1"
+                }
 
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 //the user aborted the sign-in flow and we need to exit add note activity
@@ -58,6 +62,7 @@ class NoteActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+
 
         viewModel = ViewModelProvider(this)[NoteActivityViewModel::class.java]
 

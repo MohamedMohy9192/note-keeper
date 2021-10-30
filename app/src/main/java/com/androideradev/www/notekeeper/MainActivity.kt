@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import com.androideradev.www.notekeeper.databinding.ActivityMainBinding
 import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.AuthResult
@@ -71,6 +72,12 @@ class MainActivity : AppCompatActivity() {
             signInLauncher.launch(signInIntent)
         }
 
+        /*
+        * If a user already have an existing account sign in anonymously and then tries
+        * to sign in with their existing account firebase will not able to handle this automatically
+        * firebase will throw account merge conflict exception
+        * */
+
         // If the user try to use feature that require sign in
         // Start MainActivity to show the sign in options and pass text message with intent to
         // demonstrate the need to sign in and display this message in main activity and hide the
@@ -124,9 +131,43 @@ class MainActivity : AppCompatActivity() {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
-            Log.e(LOG_TAG, "sign In Failed", response?.error)
-            Log.e(LOG_TAG, "sign In Failed ${response?.error?.errorCode}")
-            // ...
+            /*
+    * If a user already have an existing account and sign in anonymously and then tries
+    * to sign in with their existing account firebase will not able to handle this automatically
+    * firebase will throw account merge conflict exception
+    * */
+            if (response != null && response.error != null &&
+                response.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT
+            ) {
+                // this account is the object that we will merge the anonymous data into and
+                // sign in to
+                val fullCredential = response.credentialForLinking
+                if (fullCredential != null) {
+                    val auth = FirebaseAuth.getInstance()
+                    auth.signInWithCredential(fullCredential)
+                        .addOnSuccessListener {
+                            //Check Intent come from activity require sign in
+                            if (referredFromActivityRequireSignIn) {
+                                val user = auth.currentUser
+                                val intentData = Intent()
+                                intent.putExtra(USER_ID_EXTRA, user?.uid)
+                                setResult(Activity.RESULT_OK, intentData)
+                                finish()
+                            } else {
+                                launchNotesActivity()
+                                finish()
+                            }
+
+                        }
+                }
+            }
+
+            //Show message to notify user when sign in failed not if user canceled or successful log in
+            if (result.resultCode != Activity.RESULT_CANCELED && result.resultCode == Activity.RESULT_OK){
+                Log.e(LOG_TAG, "sign In Failed", response?.error)
+                Toast.makeText(this, "Sign-in failed", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
