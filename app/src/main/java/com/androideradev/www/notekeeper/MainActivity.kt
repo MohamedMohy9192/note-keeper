@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                 .setAvailableProviders(providers)
                 .setIsSmartLockEnabled(!BuildConfig.DEBUG, true)
                 .enableAnonymousUsersAutoUpgrade()
+                .setTheme(R.style.SignInTheme)
                 .build()
             signInLauncher.launch(signInIntent)
         }
